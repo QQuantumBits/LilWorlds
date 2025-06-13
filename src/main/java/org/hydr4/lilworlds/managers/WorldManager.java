@@ -90,10 +90,22 @@ public class WorldManager {
             // Use reflection to access the options object from WorldCommand
             Class<?> optionsClass = options.getClass();
             
-            World.Environment environment = (World.Environment) optionsClass.getField("environment").get(options);
-            String generator = (String) optionsClass.getField("generator").get(options);
-            boolean generateStructures = optionsClass.getField("generateStructures").getBoolean(options);
-            long seed = optionsClass.getField("seed").getLong(options);
+            // Use getDeclaredField instead of getField to access package-private fields
+            java.lang.reflect.Field environmentField = optionsClass.getDeclaredField("environment");
+            environmentField.setAccessible(true);
+            World.Environment environment = (World.Environment) environmentField.get(options);
+            
+            java.lang.reflect.Field generatorField = optionsClass.getDeclaredField("generator");
+            generatorField.setAccessible(true);
+            String generator = (String) generatorField.get(options);
+            
+            java.lang.reflect.Field generateStructuresField = optionsClass.getDeclaredField("generateStructures");
+            generateStructuresField.setAccessible(true);
+            boolean generateStructures = generateStructuresField.getBoolean(options);
+            
+            java.lang.reflect.Field seedField = optionsClass.getDeclaredField("seed");
+            seedField.setAccessible(true);
+            long seed = seedField.getLong(options);
             
             WorldCreator creator = new WorldCreator(worldName);
             creator.environment(environment);

@@ -386,10 +386,11 @@ public class WorldCommand extends BaseCommand {
         }
         
         if (args.length == 1) {
-            // Unload all worlds (with confirmation)
+            // Unload all worlds (with confirmation but no timeout)
             sendWarning(sender, "This will unload ALL worlds except the main world!");
             sendWarning(sender, "All players will be moved to the main world.");
-            sendMessage(sender, "&7Use &f/world unload confirm &7to proceed.");
+            sendMessage(sender, "&cTo confirm, type: &f/w unload confirm");
+            sendMessage(sender, "&7This confirmation does not expire.");
             return true;
         }
         
@@ -409,17 +410,18 @@ public class WorldCommand extends BaseCommand {
             }
             
             sendSuccess(sender, "Unloaded " + unloaded + " worlds!");
+            return true;
+        }
+        
+        // Unload specific world (no confirmation needed for single world)
+        sendInfo(sender, "Unloading world '" + worldName + "'...");
+        
+        boolean success = plugin.getWorldManager().unloadWorld(worldName, true);
+        
+        if (success) {
+            sendSuccess(sender, "World '" + worldName + "' unloaded successfully!");
         } else {
-            // Unload specific world
-            sendInfo(sender, "Unloading world '" + worldName + "'...");
-            
-            boolean success = plugin.getWorldManager().unloadWorld(worldName, true);
-            
-            if (success) {
-                sendSuccess(sender, "World '" + worldName + "' unloaded successfully!");
-            } else {
-                sendError(sender, "Failed to unload world '" + worldName + "'!");
-            }
+            sendError(sender, "Failed to unload world '" + worldName + "'!");
         }
         
         return true;
@@ -455,7 +457,7 @@ public class WorldCommand extends BaseCommand {
             return executeWorldDeletion(sender, worldName);
         }
         
-        // Show confirmation message
+        // Show confirmation message (no timeout)
         sendWarning(sender, "⚠ DANGER: This will PERMANENTLY DELETE the world '" + worldName + "'!");
         sendWarning(sender, "⚠ This action CANNOT be undone!");
         sendWarning(sender, "⚠ All world data, builds, and progress will be lost forever!");
@@ -482,24 +484,14 @@ public class WorldCommand extends BaseCommand {
         }
         
         sendMessage(sender, "");
-        sendMessage(sender, plugin.getConfigManager().getMessage("delete-confirmation-required", "{world}", worldName));
-        sendMessage(sender, plugin.getConfigManager().getMessage("delete-confirmation-expires"));
-        
-        // Store confirmation with timeout
-        storeDeleteConfirmation(sender, worldName);
+        sendMessage(sender, "&cTo confirm deletion, type: &f/w delete " + worldName + " confirm");
+        sendMessage(sender, "&7This confirmation does not expire.");
         
         return true;
     }
     
     private boolean executeWorldDeletion(CommandSender sender, String worldName) {
-        // Check if confirmation is valid
-        if (!isDeleteConfirmationValid(sender, worldName)) {
-            sendError(sender, "Delete confirmation expired or invalid! Please run the delete command again.");
-            return true;
-        }
-        
-        // Remove confirmation
-        removeDeleteConfirmation(sender, worldName);
+        // Proceed with deletion (no timeout checks needed)
         
         sendInfo(sender, "Deleting world '" + worldName + "'...");
         

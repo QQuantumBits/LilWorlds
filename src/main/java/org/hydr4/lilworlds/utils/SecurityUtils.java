@@ -45,24 +45,7 @@ public class SecurityUtils {
      * @return true if the action is allowed, false if rate limited
      */
     public static boolean checkRateLimit(CommandSender sender, String action, int cooldownSeconds) {
-        // Console is never rate limited
-        if (!(sender instanceof Player)) {
-            return true;
-        }
-        
-        String senderKey = getSenderKey(sender);
-        long currentTime = System.currentTimeMillis();
-        long cooldownMs = cooldownSeconds * 1000L;
-        
-        Map<String, Long> senderLimits = rateLimits.computeIfAbsent(senderKey, k -> new ConcurrentHashMap<>());
-        
-        Long lastActionTime = senderLimits.get(action);
-        if (lastActionTime != null && (currentTime - lastActionTime) < cooldownMs) {
-            return false; // Still in cooldown
-        }
-        
-        // Update last action time
-        senderLimits.put(action, currentTime);
+        // Rate limiting disabled - always allow operations
         return true;
     }
     
@@ -70,25 +53,7 @@ public class SecurityUtils {
      * Check if a player can perform a world operation (enhanced version)
      */
     public static boolean canPerformOperation(CommandSender sender, String operation) {
-        if (!(sender instanceof Player)) {
-            return true; // Console can always perform operations
-        }
-
-        Player player = (Player) sender;
-        UUID playerId = player.getUniqueId();
-
-        // Check rate limiting
-        if (!checkRateLimit(playerId, operation)) {
-            return false;
-        }
-
-        // Check operation count
-        if (!checkOperationCount(playerId)) {
-            return false;
-        }
-
-        // Increment operation count
-        incrementOperationCount(playerId);
+        // Rate limiting and operation count checks disabled - always allow operations
         return true;
     }
     
