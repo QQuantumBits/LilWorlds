@@ -1,0 +1,32 @@
+display-name: "Super Flat World"
+description: "A completely flat world with customizable layers"
+type: "FLAT"
+
+# Structure generation
+generate-structures: false
+generate-villages: false
+generate-strongholds: false
+generate-mineshafts: false
+generate-temples: false
+generate-ravines: false
+generate-caves: false
+generate-dungeons: false
+
+# Biomes
+biomes:
+  - "PLAINS"
+
+# Layers (bottom to top)
+layers:
+  - "minecraft:bedrock"
+  - "minecraft:dirt:2"
+  - "minecraft:grass_block"
+
+# No ore generation for super flat
+ores: {}
+
+# Custom settings
+settings:
+  sea-level: 4
+  spawn-x: 0
+  spawn-z: 0

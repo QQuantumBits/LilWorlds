@@ -1,0 +1,51 @@
+display-name: "Example Generator"
+description: "An example custom world generator"
+type: "FLAT"
+
+# Structure generation
+generate-structures: true
+generate-villages: true
+generate-strongholds: false
+generate-mineshafts: true
+generate-temples: true
+generate-ravines: false
+generate-caves: false
+generate-dungeons: true
+
+# Biomes
+biomes:
+  - "PLAINS"
+  - "FOREST"
+  - "DESERT"
+
+# Layers (bottom to top)
+layers:
+  - "minecraft:bedrock"
+  - "minecraft:stone:5"
+  - "minecraft:dirt:3"
+  - "minecraft:grass_block"
+
+# Ore generation
+ores:
+  coal:
+    frequency: 20
+    min-height: 1
+    max-height: 128
+  iron:
+    frequency: 15
+    min-height: 1
+    max-height: 64
+  gold:
+    frequency: 5
+    min-height: 1
+    max-height: 32
+  diamond:
+    frequency: 2
+    min-height: 1
+    max-height: 16
+
+# Custom settings
+settings:
+  sea-level: 63
+  spawn-x: 0
+  spawn-z: 0

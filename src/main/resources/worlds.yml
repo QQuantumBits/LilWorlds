@@ -1,0 +1,11 @@
+# LilWorlds - World Configuration
+# This file stores information about managed worlds
+
+worlds:
+  # Example world configuration (will be auto-generated)
+  # world_name:
+  #   environment: NORMAL
+  #   generator: ""
+  #   generate-structures: true
+  #   created: 1234567890
+  #   last-loaded: 1234567890

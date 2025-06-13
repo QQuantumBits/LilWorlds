@@ -1,0 +1,111 @@
+# LilWorlds Configuration File
+# A performant, modular world management plugin for Minecraft
+
+# General Settings
+debug: false
+auto-load-worlds: true
+auto-save-worlds: true
+auto-save-interval: 300  # seconds (5 minutes)
+
+# Integration Settings
+integrations:
+  placeholderapi: true
+  bstats: true
+
+# Default World Settings
+defaults:
+  world-type: "NORMAL"  # NORMAL, NETHER, THE_END
+  generator: ""  # Leave empty for default generator
+  generate-structures: true
+  gamemode: "SURVIVAL"  # SURVIVAL, CREATIVE, ADVENTURE, SPECTATOR
+  difficulty: "NORMAL"  # PEACEFUL, EASY, NORMAL, HARD
+  pvp: true
+  keep-spawn-in-memory: true
+  allow-animals: true
+  allow-monsters: true
+
+# World Limits
+limits:
+  max-worlds-per-player: -1  # -1 = unlimited
+  max-total-worlds: -1  # -1 = unlimited
+  creation-cooldown: 0  # seconds, 0 = no cooldown
+
+# Universal Spawn Settings
+# This will be automatically configured when set in-game
+universal-spawn:
+  world: ""
+  x: 0.0
+  y: 64.0
+  z: 0.0
+  yaw: 0.0
+  pitch: 0.0
+
+# Performance Settings
+performance:
+  async-world-operations: true
+  chunk-loading-optimization: true
+  memory-cleanup-interval: 600  # seconds (10 minutes)
+
+# Security Settings
+security:
+  prevent-world-deletion: true
+  backup-before-operations: false
+  max-world-name-length: 32
+
+# Logging Settings
+logging:
+  log-world-operations: true
+  log-player-commands: true
+  log-performance-metrics: false
+
+# Advanced Settings
+advanced:
+  custom-world-folder: ""  # Leave empty to use default
+  world-loading-timeout: 30  # seconds
+  enable-experimental-features: false
+
+# Features configuration
+features:
+  # Separate inventories per world
+  separate-inventories:
+    # Enable separate inventories feature
+    enabled: false
+    
+    # What to separate between worlds
+    separate:
+      inventory: true      # Player inventory and armor
+      health: true         # Health and food levels
+      experience: true     # Experience and levels
+      gamemode: false      # Game mode (keep same across worlds)
+      flight: true         # Flight settings
+      potion-effects: true # Active potion effects
+      location: false      # Player location (spawn at world spawn if true)
+      enderchest: true     # Ender chest contents
+    
+    # World groups - players share inventories within the same group
+    # Players will have separate inventories between different groups
+    world-groups:
+      # Example groups:
+      # survival: ["world", "world_nether", "world_the_end"]
+      # creative: ["creative_world", "build_world"]
+      # minigames: ["pvp_arena", "spleef_arena"]
+    
+    # Default group for worlds not specified in world-groups
+    default-group: "default"
+    
+    # Advanced settings
+    advanced:
+      # Save data to files (persistent across server restarts)
+      save-to-files: true
+      
+      # Cache timeout in minutes (0 = never expire)
+      cache-timeout: 30
+      
+      # Auto-save interval in seconds
+      auto-save-interval: 300
+      
+      # Backup player data before switching
+      backup-on-switch: false
+      
+      # Clear cache on world unload
+      clear-cache-on-unload: true

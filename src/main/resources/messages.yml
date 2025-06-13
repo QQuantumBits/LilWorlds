@@ -1,0 +1,211 @@
+# LilWorlds - Messages Configuration
+# Customize all plugin messages here
+
+# General Messages
+prefix: "&8[&bLilWorlds&8]&r"
+no-permission: "&cYou don't have permission to do that!"
+player-only: "&cThis command can only be executed by players!"
+console-only: "&cThis command can only be executed from console!"
+unknown-command: "&cUnknown command. Use &f/worlds help &cfor help."
+invalid-arguments: "&cInvalid arguments. Use &f{usage} &cfor correct usage."
+specify-world-name: "&cYou must specify a world name!"
+
+# Weather Messages
+clear-weather: "Clear"
+rain-weather: "Raining"
+thunder-weather: "Thundering"
+
+# Success Messages
+world-created: "&aWorld &f{world} &acreated successfully!"
+world-loaded: "&aWorld &f{world} &aloaded successfully!"
+world-unloaded: "&aWorld &f{world} &aunloaded successfully!"
+world-cloned: "&aWorld &f{source} &acloned to &f{target} &asuccessfully!"
+world-imported: "&aWorld &f{world} &aimported successfully!"
+spawn-set: "&aSpawn location set for world &f{world}&a!"
+universal-spawn-set: "&aUniversal spawn location set!"
+config-reloaded: "&aConfiguration reloaded successfully!"
+plugin-reloaded: "&aLilWorlds reloaded successfully!"
+
+# Error Messages
+world-exists: "&cWorld &f{world} &calready exists!"
+world-not-found: "&cWorld &f{world} &cdoes not exist!"
+world-not-loaded: "&cWorld &f{world} &cis not loaded!"
+world-creation-failed: "&cFailed to create world &f{world}&c!"
+world-load-failed: "&cFailed to load world &f{world}&c!"
+world-unload-failed: "&cFailed to unload world &f{world}&c!"
+world-clone-failed: "&cFailed to clone world &f{source} &cto &f{target}&c!"
+world-import-failed: "&cFailed to import world &f{world}&c!"
+cannot-unload-main: "&cCannot unload the main world!"
+invalid-environment: "&cInvalid environment: &f{environment}"
+invalid-generator: "&cInvalid generator: &f{generator}"
+world-folder-not-found: "&cWorld folder for &f{world} &cnot found!"
+
+# Warning Messages
+world-unload-warning: "&eThis will unload ALL worlds except the main world!"
+players-moved-warning: "&eAll players will be moved to the main world."
+operation-time-warning: "&eThis operation may take some time depending on world size."
+confirm-required: "&eUse &f/world unload confirm &eto proceed."
+
+# Info Messages
+world-info-header: "&8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+world-info-title: "&b&lWorld Information: &f{world}"
+world-info-footer: "&8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+loading-worlds: "&7Loading worlds from configuration..."
+creating-world: "&7Creating world &f{world}&7..."
+cloning-world: "&7Cloning world &f{source} &7to &f{target}&7..."
+loading-world: "&7Loading world &f{world}&7..."
+unloading-world: "&7Unloading world &f{world}&7..."
+importing-world: "&7Importing world &f{world}&7..."
+
+# Help Messages
+help-header: "&8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+help-title: "&b&lLilWorlds &8- &7World Management Commands"
+help-footer: "&8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+
+# World Information Labels
+environment: "&7Environment: &f{value}"
+difficulty: "&7Difficulty: &f{value}"
+pvp-status: "&7PvP: &f{value}"
+player-count: "&7Players: &f{value}"
+world-time: "&7Time: &f{value}"
+weather-status: "&7Weather: &f{value}"
+spawn-location: "&7Spawn Location: &f{value}"
+keep-spawn: "&7Keep Spawn in Memory: &f{value}"
+allow-animals: "&7Allow Animals: &f{value}"
+allow-monsters: "&7Allow Monsters: &f{value}"
+managed-status: "&7Managed by LilWorlds: &f{value}"
+generator-info: "&7Generator: &f{value}"
+generate-structures: "&7Generate Structures: &f{value}"
+
+# Status Values
+enabled: "&aEnabled"
+disabled: "&cDisabled"
+yes: "&aYes"
+no: "&cNo"
+unknown: "&7Unknown"
+clear-weather: "Clear"
+rain-weather: "Raining"
+thunder-weather: "Thundering"
+
+# Command Descriptions
+cmd-world-info: "&7/world info [world] &8- &fView world information"
+cmd-world-create: "&7/world create <name> [environment] [-g generator] &8- &fCreate a new world"
+cmd-world-clone: "&7/world clone <source> <target> &8- &fClone an existing world"
+cmd-world-load: "&7/world load [world] &8- &fLoad world(s)"
+cmd-world-unload: "&7/world unload [world] &8- &fUnload world(s)"
+cmd-world-import: "&7/world import <name> [environment] [-g generator] &8- &fImport external world"
+cmd-world-setspawn: "&7/world setspawn &8- &fSet world spawn location"
+cmd-world-setuniversalspawn: "&7/world setuniversalspawn &8- &fSet universal spawn location"
+cmd-world-remove: "&7/world remove <world> [confirm] &8- &fPermanently delete a world"
+cmd-world-list: "&7/world list &8- &fList all worlds with details"
+cmd-world-config: "&7/world config <enable|disable|set> <key> [value] &8- &fModify configuration"
+cmd-worlds-reload: "&7/worlds reload [target] &8- &fReload plugin components"
+
+# Aliases
+aliases-info: "&7Aliases: &f{aliases}"
+
+# PlaceholderAPI Messages
+placeholder-world-not-found: "World not found"
+placeholder-not-available: "N/A"
+
+# Delete/Remove Command Messages
+delete-permission-denied: "&cYou don't have permission to delete worlds!"
+delete-usage: "&cUsage: /w remove <world> [confirm]"
+delete-rate-limited: "&cYou're doing that too often! Please wait before deleting another world."
+delete-invalid-world-name: "&cInvalid world name! Use only letters, numbers, hyphens, and underscores."
+delete-world-not-found: "&cWorld '{world}' does not exist!"
+delete-cannot-delete-main: "&cYou cannot delete the main world!"
+delete-world-loaded: "&cWorld '{world}' is currently loaded! Unload it first."
+delete-confirmation-required: "&cTo confirm deletion, type: &f/w remove {world} confirm"
+delete-confirmation-expires: "&7This confirmation expires in 30 seconds."
+delete-confirmation-expired: "&cDeletion confirmation has expired. Please try again."
+delete-in-progress: "&7Deleting world '{world}'..."
+delete-success: "&aWorld '{world}' has been permanently deleted!"
+delete-failed: "&cFailed to delete world '{world}'! Check console for details."
+delete-error: "&cAn error occurred while deleting the world!"
+
+# List Command Messages
+list-permission-denied: "&cYou don't have permission to list worlds!"
+list-header: "&8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+list-title: "&b&lLilWorlds &8- &7World List"
+list-footer: "&8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+list-no-worlds: "&7No worlds are currently loaded."
+list-loaded-worlds: "&a&lLoaded Worlds &7(&f{count}&7):"
+list-unloaded-worlds: "&c&lUnloaded Worlds &7(&f{count}&7):"
+list-summary: "&7Total: &a{loaded} &7loaded, &c{unloaded} &7unloaded"
+list-world-main: "&e&l(Main)"
+list-world-players: "&7player"
+list-world-players-plural: "&7players"
+
+# Import Command Messages
+import-permission-denied: "&cYou don't have permission to import worlds!"
+import-usage: "&cUsage: /w import <name> [environment] [-g generator]"
+
+# Create Command Messages
+create-permission-denied: "&cYou don't have permission to create worlds!"
+create-usage: "&cUsage: /w create <name> [environment] [-g generator]"
+
+# Clone Command Messages
+clone-permission-denied: "&cYou don't have permission to clone worlds!"
+clone-usage: "&cUsage: /w clone <source> <target>"
+
+# Load Command Messages
+load-permission-denied: "&cYou don't have permission to load worlds!"
+load-usage: "&cUsage: /w load [world]"
+load-all-worlds: "&7Loading all worlds..."
+
+# Unload Command Messages
+unload-permission-denied: "&cYou don't have permission to unload worlds!"
+unload-usage: "&cUsage: /w unload [world]"
+unload-all-worlds: "&7Unloading all worlds..."
+
+# Setspawn Command Messages
+setspawn-permission-denied: "&cYou don't have permission to set spawn!"
+setspawn-player-only: "&cThis command can only be used by players!"
+
+# Set Universal Spawn Command Messages
+setuniversalspawn-permission-denied: "&cYou don't have permission to set universal spawn!"
+setuniversalspawn-player-only: "&cThis command can only be used by players!"
+
+# Config Command Messages
+config-permission-denied: "&cYou don't have permission to modify configuration!"
+config-usage: "&cUsage: /w config <enable|disable|set> <key> [value]"
+config-invalid-action: "&cInvalid action! Use: enable, disable, or set"
+config-key-enabled: "&aConfiguration key '{key}' has been enabled."
+config-key-disabled: "&cConfiguration key '{key}' has been disabled."
+config-key-set: "&aConfiguration key '{key}' has been set to '{value}'."
+config-key-not-found: "&cConfiguration key '{key}' not found!"
+
+# Inventory Management Messages
+inventory-permission-denied: "&cYou don't have permission to manage inventories!"
+inventory-usage: "&cUsage: /worlds inventory <enable|disable|status|clear> [player]"
+inventory-enabled: "&aSeparate inventories have been enabled!"
+inventory-disabled: "&cSeparate inventories have been disabled!"
+inventory-status-enabled: "&aSeparate inventories are currently &aenabled&7."
+inventory-status-disabled: "&7Separate inventories are currently &cdisabled&7."
+inventory-cleared: "&aInventory cleared for player '{player}' in all worlds."
+inventory-clear-all: "&aAll player inventories have been cleared."
+
+# Security Messages
+security-world-deletion: "World deletion attempt"
+security-world-creation: "World creation attempt"
+security-config-change: "Configuration change attempt"
+
+# Generator Messages
+generator-not-found: "&cGenerator '{generator}' not found!"
+generator-loaded: "&aGenerator '{generator}' loaded successfully!"
+generator-failed: "&cFailed to load generator '{generator}'!"
+
+# Validation Messages
+validation-world-name-invalid: "&cInvalid world name! Use only letters, numbers, hyphens, and underscores."
+validation-world-name-too-long: "&cWorld name is too long! Maximum {max} characters."
+validation-world-name-reserved: "&cWorld name '{name}' is reserved and cannot be used."
+
+# File Operation Messages
+file-size-calculating: "&7Calculating world size..."
+file-size-result: "&7World size: &f{size}"
+file-deletion-success: "&aWorld files deleted successfully."
+file-deletion-failed: "&cFailed to delete some world files."
+
+# Unknown Command
+unknown-subcommand: "&cUnknown subcommand: {subcommand}"

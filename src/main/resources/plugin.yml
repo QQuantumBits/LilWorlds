@@ -1,0 +1,114 @@
+name: LilWorlds
+version: '${project.version}'
+main: org.hydr4.lilworlds.LilWorlds
+api-version: 1.16
+authors: [Hydr4]
+description: A performant, modular world management plugin for Minecraft
+website: https://github.com/CarmineArcangelo/LilWorlds
+softdepend: [PlaceholderAPI]
+
+commands:
+  world:
+    description: Main world management command
+    usage: /world <subcommand> [args...]
+    aliases: [w]
+    permission: lilworlds.world
+  worlds:
+    description: Plugin management command
+    usage: /worlds <subcommand> [args...]
+    permission: lilworlds.worlds
+
+permissions:
+  lilworlds.*:
+    description: Grants access to all LilWorlds commands
+    default: op
+    children:
+      lilworlds.world.*: true
+      lilworlds.worlds.*: true
+  
+  lilworlds.world.*:
+    description: Grants access to all world commands
+    default: op
+    children:
+      lilworlds.world: true
+      lilworlds.world.info: true
+      lilworlds.world.create: true
+      lilworlds.world.clone: true
+      lilworlds.world.load: true
+      lilworlds.world.unload: true
+      lilworlds.world.import: true
+      lilworlds.world.setspawn: true
+      lilworlds.world.setuniversalspawn: true
+      lilworlds.world.config: true
+  
+  lilworlds.world:
+    description: Basic world command access
+    default: op
+  
+  lilworlds.world.info:
+    description: View world information
+    default: true
+  
+  lilworlds.world.create:
+    description: Create new worlds
+    default: op
+  
+  lilworlds.world.clone:
+    description: Clone existing worlds
+    default: op
+  
+  lilworlds.world.load:
+    description: Load worlds
+    default: op
+  
+  lilworlds.world.unload:
+    description: Unload worlds
+    default: op
+  
+  lilworlds.world.delete:
+    description: Delete worlds permanently
+    default: op
+  
+  lilworlds.world.import:
+    description: Import external worlds
+    default: op
+  
+  lilworlds.world.list:
+    description: List all worlds (loaded and unloaded)
+    default: true
+  
+  lilworlds.world.teleport:
+    description: Auto-teleport to created worlds
+    default: op
+  
+  lilworlds.world.setspawn:
+    description: Set world spawn locations
+    default: op
+  
+  lilworlds.world.setuniversalspawn:
+    description: Set universal spawn location
+    default: op
+  
+  lilworlds.world.config:
+    description: Modify world configuration
+    default: op
+  
+  lilworlds.worlds.*:
+    description: Grants access to all plugin management commands
+    default: op
+    children:
+      lilworlds.worlds: true
+      lilworlds.worlds.reload: true
+      lilworlds.worlds.inventory: true
+  
+  lilworlds.worlds:
+    description: Basic plugin management access
+    default: op
+  
+  lilworlds.worlds.reload:
+    description: Reload plugin components
+    default: op
+  
+  lilworlds.worlds.inventory:
+    description: Manage separate inventories feature
+    default: op

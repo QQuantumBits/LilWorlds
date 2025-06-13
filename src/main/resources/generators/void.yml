@@ -1,0 +1,59 @@
+# Void World Generator Configuration
+# Creates a completely empty void world with only a single bedrock block at spawn
+
+name: "void"
+description: "A void world with only a bedrock block at spawn"
+author: "LilWorlds"
+version: "1.0"
+
+# Generator settings
+settings:
+  # World generation type
+  type: "VOID"
+  
+  # Spawn platform settings
+  spawn-platform:
+    enabled: true
+    material: "BEDROCK"
+    size: 1  # 1x1 platform
+    height: 64  # Y level for the platform
+    
+  # Biome settings
+  biome: "PLAINS"  # Default biome for the void
+  
+  # Structure generation (disabled for void)
+  generate-structures: false
+  generate-decorations: false
+  
+  # Mob spawning settings
+  allow-monsters: false
+  allow-animals: false
+  
+  # World border (optional)
+  world-border:
+    enabled: false
+    size: 1000
+    center-x: 0
+    center-z: 0
+
+# Advanced settings
+advanced:
+  # Chunk generation settings
+  chunk-settings:
+    # Generate completely empty chunks except for spawn
+    empty-chunks: true
+    
+    # Spawn chunk coordinates (where the bedrock block will be)
+    spawn-chunk-x: 0
+    spawn-chunk-z: 0
+    
+  # Performance settings
+  performance:
+    # Pre-generate spawn chunks
+    pregenerate-spawn: true
+    # Number of chunks to pregenerate around spawn
+    pregenerate-radius: 2
+
+# Example usage in commands:
+# /w create voidworld NORMAL -g void
+# /w create myvoid NORMAL -g void --no-structures --no-decorations
