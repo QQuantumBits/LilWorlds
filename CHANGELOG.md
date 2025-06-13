@@ -47,3 +47,9 @@
 - No breaking changes for existing users
 
 ---
+
+### 🎉 **Version Name: "Freedom Update"**
+This update focuses on removing artificial limitations while maintaining safety. Users now have the freedom to manage worlds without arbitrary timeouts, while still being protected from accidental deletions through the improved confirmation system.
+
+### 🐛 **Bug Reports**
+If you encounter any issues with this version, please report them on the GitHub repository with detailed information about your server setup and the specific error messages.
