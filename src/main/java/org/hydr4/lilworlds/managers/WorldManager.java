@@ -9,6 +9,7 @@ import org.hydr4.lilworlds.utils.LoggerUtils;
 
 import java.io.File;
 import java.util.*;
+import java.util.function.Consumer;
 
 public class WorldManager {
     
@@ -83,7 +84,76 @@ public class WorldManager {
     }
     
     /**
-     * Create a world with advanced options
+     * Create a world with advanced options (async-safe version)
+     */
+    public void createWorldAdvancedAsync(String worldName, Object options, Consumer<Boolean> callback) {
+        try {
+            // Do all preparation work on async thread
+            // Use reflection to access the options object from WorldCommand
+            Class<?> optionsClass = options.getClass();
+            
+            // Use getDeclaredField instead of getField to access package-private fields
+            java.lang.reflect.Field environmentField = optionsClass.getDeclaredField("environment");
+            environmentField.setAccessible(true);
+            World.Environment environment = (World.Environment) environmentField.get(options);
+            
+            java.lang.reflect.Field generatorField = optionsClass.getDeclaredField("generator");
+            generatorField.setAccessible(true);
+            String generator = (String) generatorField.get(options);
+            
+            java.lang.reflect.Field generateStructuresField = optionsClass.getDeclaredField("generateStructures");
+            generateStructuresField.setAccessible(true);
+            boolean generateStructures = generateStructuresField.getBoolean(options);
+            
+            java.lang.reflect.Field seedField = optionsClass.getDeclaredField("seed");
+            seedField.setAccessible(true);
+            long seed = seedField.getLong(options);
+            
+            // Prepare WorldCreator on async thread
+            WorldCreator creator = new WorldCreator(worldName);
+            creator.environment(environment);
+            creator.generateStructures(generateStructures);
+            
+            if (generator != null && !generator.isEmpty()) {
+                creator.generator(generator);
+            }
+            
+            if (seed != 0) {
+                creator.seed(seed);
+            }
+            
+            LoggerUtils.info("Creating world '" + worldName + "' with advanced options...");
+            LoggerUtils.info("Environment: " + environment + ", Generator: " + (generator != null ? generator : "default") + 
+                           ", Structures: " + generateStructures + ", Seed: " + (seed != 0 ? seed : "random"));
+            
+            // Switch to main thread only for the actual world creation (required for world border events)
+            Bukkit.getScheduler().runTask(plugin, () -> {
+                try {
+                    World world = creator.createWorld();
+                    
+                    if (world != null) {
+                        LoggerUtils.info("Successfully created world: " + worldName);
+                        WorldInfo worldInfo = new WorldInfo(worldName, environment, generator, generateStructures);
+                        saveWorldToConfig(worldInfo);
+                        callback.accept(true);
+                    } else {
+                        LoggerUtils.error("Failed to create world: " + worldName);
+                        callback.accept(false);
+                    }
+                } catch (Exception e) {
+                    LoggerUtils.error("Error creating world with advanced options: " + worldName, e);
+                    callback.accept(false);
+                }
+            });
+            
+        } catch (Exception e) {
+            LoggerUtils.error("Error preparing world creation with advanced options: " + worldName, e);
+            callback.accept(false);
+        }
+    }
+
+    /**
+     * Create a world with advanced options (legacy synchronous version)
      */
     public boolean createWorldAdvanced(String worldName, Object options) {
         try {

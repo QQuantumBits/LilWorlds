@@ -1,5 +1,31 @@
 # LilWorlds Changelog
 
+## Version 1.3.1-AsyncFix - "Synchronization Fix"
+
+**Release Date:** June 13, 2025
+
+### 🎯 **Critical Bug Fix**
+- **FIXED:** `WorldBorderCenterChangeEvent may only be triggered synchronously` error
+  - Fixed async world creation that was causing IllegalStateException
+  - Implemented hybrid async/sync approach for optimal performance
+  - World preparation (reflection, validation, logging) now runs asynchronously
+  - Only the critical `creator.createWorld()` call runs synchronously (required by Bukkit API)
+  - Maintains performance benefits while respecting Bukkit's threading requirements
+
+### 🚀 **Performance Improvements**
+- **NEW:** `createWorldAdvancedAsync()` method for better async handling
+- **IMPROVED:** World creation now uses callback-based async pattern
+- **OPTIMIZED:** Minimal main thread usage - only for world border events
+- **MAINTAINED:** Legacy synchronous method for compatibility
+
+### 🔧 **Technical Changes**
+- Added `Consumer<Boolean>` callback pattern for async world creation
+- Split world creation into async preparation and sync execution phases
+- Added proper error handling for both async and sync phases
+- Improved thread safety for world creation operations
+
+---
+
 ## Version 1.3.0-NoTimeout - "Freedom Update"
 
 **Release Date:** June 13, 2025

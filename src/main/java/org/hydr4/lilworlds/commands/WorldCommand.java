@@ -199,29 +199,29 @@ public class WorldCommand extends BaseCommand {
         
         sendInfo(sender, "Creating world '" + worldName + "'...");
         
-        // Create world asynchronously for better performance
+        // Do preparation work asynchronously for better performance
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
-            boolean success = plugin.getWorldManager().createWorldAdvanced(worldName, options);
-            
-            // Send result on main thread
-            Bukkit.getScheduler().runTask(plugin, () -> {
-                if (success) {
-                    sendSuccess(sender, "World '" + worldName + "' created successfully!");
-                    sendInfo(sender, "Use '/w info " + worldName + "' to view detailed information.");
-                    
-                    // Auto-teleport player if they're online and have permission
-                    if (sender instanceof Player && hasPermission(sender, "lilworlds.world.teleport")) {
-                        Player player = (Player) sender;
-                        World world = Bukkit.getWorld(worldName);
-                        if (world != null) {
-                            sendInfo(sender, "Teleporting you to the new world...");
-                            player.teleport(world.getSpawnLocation());
+            plugin.getWorldManager().createWorldAdvancedAsync(worldName, options, (result) -> {
+                // Handle result on main thread
+                Bukkit.getScheduler().runTask(plugin, () -> {
+                    if (result) {
+                        sendSuccess(sender, "World '" + worldName + "' created successfully!");
+                        sendInfo(sender, "Use '/w info " + worldName + "' to view detailed information.");
+                        
+                        // Auto-teleport player if they're online and have permission
+                        if (sender instanceof Player && hasPermission(sender, "lilworlds.world.teleport")) {
+                            Player player = (Player) sender;
+                            World world = Bukkit.getWorld(worldName);
+                            if (world != null) {
+                                sendInfo(sender, "Teleporting you to the new world...");
+                                player.teleport(world.getSpawnLocation());
+                            }
                         }
+                    } else {
+                        sendError(sender, "Failed to create world '" + worldName + "'!");
+                        sendError(sender, "Check console for detailed error information.");
                     }
-                } else {
-                    sendError(sender, "Failed to create world '" + worldName + "'!");
-                    sendError(sender, "Check console for detailed error information.");
-                }
+                });
             });
         });
         
