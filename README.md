@@ -1,8 +1,49 @@
 # LilWorlds
 
-Un plugin performante e modulare per la gestione dei mondi su server Minecraft che supporta le versioni dalla 1.16 alla 1.21.5.
+<div align="center">
 
-## Caratteristiche
+[![Latest Release](https://img.shields.io/github/v/release/QQuantumBits/LilWorlds?style=for-the-badge&logo=github&color=brightgreen)](https://github.com/QQuantumBits/LilWorlds/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/QQuantumBits/LilWorlds/total?style=for-the-badge&logo=download&color=blue)](https://github.com/QQuantumBits/LilWorlds/releases)
+[![Minecraft Version](https://img.shields.io/badge/Minecraft-1.16--1.21.5-orange?style=for-the-badge&logo=minecraft)](https://www.minecraft.net/)
+[![Java Version](https://img.shields.io/badge/Java-8+-red?style=for-the-badge&logo=openjdk)](https://openjdk.org/)
+
+[![Discord](https://img.shields.io/discord/phVzDFAZ3v?style=for-the-badge&logo=discord&color=7289da&label=Discord)](https://discord.gg/phVzDFAZ3v)
+[![Documentation](https://img.shields.io/badge/Docs-Available-brightgreen?style=for-the-badge&logo=gitbook)](https://hydr4.mintlify.app/lilworlds)
+[![License](https://img.shields.io/github/license/Hydr46605/LilWorlds?style=for-the-badge&color=blue)](LICENSE)
+[![bStats](https://img.shields.io/badge/bStats-Metrics-brightgreen?style=for-the-badge&logo=chartdotjs)](https://bstats.org/plugin/bukkit/LilWorlds)
+
+[![Issues](https://img.shields.io/github/issues/QQuantumBits/LilWorlds?style=for-the-badge&logo=github)](https://github.com/QQuantumBits/LilWorlds/issues)
+[![Pull Requests](https://img.shields.io/github/issues-pr/QQuantumBits/LilWorlds?style=for-the-badge&logo=github)](https://github.com/QQuantumBits/LilWorlds/pulls)
+[![Stars](https://img.shields.io/github/stars/QQuantumBits/LilWorlds?style=for-the-badge&logo=github&color=yellow)](https://github.com/QQuantumBits/LilWorlds/stargazers)
+[![Forks](https://img.shields.io/github/forks/QQuantumBits/LilWorlds?style=for-the-badge&logo=github)](https://github.com/QQuantumBits/LilWorlds/network/members)
+
+</div>
+
+---
+
+<div align="center">
+  <h3>🌍 Plugin performante e modulare per la gestione dei mondi su server Minecraft</h3>
+  <p><strong>Supporta le versioni dalla 1.16 alla 1.21.5</strong></p>
+</div>
+
+---
+
+## 📋 Indice
+
+- [🚀 Caratteristiche](#-caratteristiche)
+- [📦 Installazione](#-installazione)
+- [⚡ Quick Start](#-quick-start)
+- [🎮 Comandi](#-comandi)
+- [🔐 Permessi](#-permessi)
+- [⚙️ Configurazione](#️-configurazione)
+- [🛠️ Generatori Personalizzati](#️-generatori-personalizzati)
+- [📊 Sistema Inventari Separati](#-sistema-inventari-separati)
+- [🔗 Integrazione PlaceholderAPI](#-integrazione-placeholderapi)
+- [📄 Licenza](#-licenza)
+
+---
+
+## 🚀 Caratteristiche
 
 ### 🌍 Gestione Mondi
 - **Crea mondi** con ambienti e generatori personalizzati
@@ -41,7 +82,47 @@ Un plugin performante e modulare per la gestione dei mondi su server Minecraft c
 - **Gestione Errori**: Gestione errori robusta con logging dettagliato
 - **Sistema Messaggi**: Messaggi completamente personalizzabili in messages.yml
 
-## Comandi
+---
+
+## 📦 Installazione
+
+### Requisiti
+- **Server Minecraft**: 1.16 - 1.21.5 (Bukkit/Spigot/Paper)
+- **Java**: 8 o superiore
+- **Dipendenze**: Nessuna (PlaceholderAPI è opzionale)
+
+### Passi di Installazione
+
+1. **Scarica** l'ultima release dal [GitHub Releases](https://github.com/Hydr46605/LilWorlds/releases/latest)
+2. **Posiziona** il file JAR nella cartella `plugins/` del tuo server
+3. **Riavvia** il server
+4. **Configura** il plugin in `plugins/LilWorlds/config.yml`
+5. **Crea** generatori personalizzati in `plugins/LilWorlds/generators/` (opzionale)
+
+---
+
+## ⚡ Quick Start
+
+```bash
+# Crea il tuo primo mondo
+/world create mymundo
+
+# Clona un mondo esistente
+/world clone world myworld_copy
+
+# Imposta lo spawn universale
+/world setuniversalspawn
+
+# Abilita inventari separati
+/worlds inventory enable
+
+# Ricarica la configurazione
+/worlds reload
+```
+
+---
+
+## 🎮 Comandi
 
 ### Comandi Mondo (`/world` o `/w`)
 - `/world info [mondo]` - Visualizza informazioni dettagliate del mondo
@@ -81,7 +162,9 @@ Un plugin performante e modulare per la gestione dei mondi su server Minecraft c
 - `add <mondo> <gruppo>` - Aggiungi mondo a un gruppo
 - `remove <mondo>` - Rimuovi mondo dal suo gruppo
 
-## Permessi
+---
+
+## 🔐 Permessi
 
 ### Permessi Mondo
 - `lilworlds.world.*` - Tutti i comandi mondo
@@ -104,7 +187,24 @@ Un plugin performante e modulare per la gestione dei mondi su server Minecraft c
 - `lilworlds.worlds.inventory` - Gestisci inventari separati
 - `lilworlds.worlds.groups` - Gestisci gruppi mondi
 
-## Generatori Personalizzati
+---
+
+## ⚙️ Configurazione
+
+Il plugin utilizza diversi file di configurazione:
+
+### config.yml
+File di configurazione principale con impostazioni generali, predefiniti, limiti e opzioni di performance.
+
+### worlds.yml
+Memorizza informazioni sui mondi gestiti (auto-generato).
+
+### messages.yml
+Messaggi personalizzabili per tutto l'output del plugin.
+
+---
+
+## 🛠️ Generatori Personalizzati
 
 LilWorlds supporta generatori di mondi personalizzati tramite file di configurazione YAML posizionati nella cartella `generators/`.
 
@@ -164,7 +264,9 @@ settings:
   spawn-z: 0
 ```
 
-## Sistema Inventari Separati
+---
+
+## 📊 Sistema Inventari Separati
 
 LilWorlds offre un sistema avanzato di inventari separati che permette ai giocatori di avere inventari diversi in mondi diversi o gruppi di mondi.
 
@@ -205,7 +307,9 @@ features:
       clear-cache-on-unload: true # Pulisci cache allo scaricamento mondo
 ```
 
-## Integrazione PlaceholderAPI
+---
+
+## 🔗 Integrazione PlaceholderAPI
 
 LilWorlds fornisce un supporto estensivo per PlaceholderAPI:
 
@@ -240,34 +344,9 @@ LilWorlds fornisce un supporto estensivo per PlaceholderAPI:
 - `%lilworlds_inventory_group%` - Gruppo inventario del mondo attuale
 - `%lilworlds_inventory_cache_size%` - Dimensione cache inventari
 
-## Configurazione
+---
 
-Il plugin utilizza diversi file di configurazione:
-
-### config.yml
-File di configurazione principale con impostazioni generali, predefiniti, limiti e opzioni di performance.
-
-### worlds.yml
-Memorizza informazioni sui mondi gestiti (auto-generato).
-
-### messages.yml
-Messaggi personalizzabili per tutto l'output del plugin.
-
-## Installazione
-
-1. Scarica l'ultima release
-2. Posiziona il file JAR nella cartella `plugins/` del tuo server
-3. Riavvia il server
-4. Configura il plugin in `plugins/LilWorlds/config.yml`
-5. Crea generatori personalizzati in `plugins/LilWorlds/generators/` (opzionale)
-
-## Requisiti
-
-- **Server Minecraft**: 1.16 - 1.21.5
-- **Java**: 8 o superiore
-- **Dipendenze**: Nessuna (PlaceholderAPI è opzionale)
-
-## Funzionalità Principali
+## 🏆 Funzionalità Principali
 
 ### 🔄 Auto-Aggiornamento Configurazione
 - Le chiavi di configurazione mancanti vengono aggiunte automaticamente
@@ -289,16 +368,69 @@ Messaggi personalizzabili per tutto l'output del plugin.
 - Debug configurabile per risoluzione problemi
 - Metriche di performance opzionali
 
-## Supporto
+---
 
-- **Issues**: Segnala bug su GitHub
-- **Documentazione**: Controlla la wiki per guide dettagliate
-- **Discord**: Unisciti al nostro server community
+## 📊 Statistiche
 
-## Licenza
+<div align="center">
 
-Questo progetto è licenziato sotto la Licenza MIT - vedi il file LICENSE per i dettagli.
+[![bStats Servers](https://img.shields.io/bstats/servers/YOUR_PLUGIN_ID?style=for-the-badge&logo=chartdotjs&label=Servers)](https://bstats.org/plugin/bukkit/LilWorlds)
+[![bStats Players](https://img.shields.io/bstats/players/YOUR_PLUGIN_ID?style=for-the-badge&logo=chartdotjs&label=Players)](https://bstats.org/plugin/bukkit/LilWorlds)
+
+</div>
 
 ---
 
-**LilWorlds** - Rendere la gestione dei mondi semplice, veloce e potente.
+## 🤝 Contribuire
+
+Contributi sono sempre benvenuti! Ecco come puoi aiutare:
+
+1. **🍴 Fork** il repository
+2. **🌿 Crea** un branch per la tua funzionalità (`git checkout -b feature/AmazingFeature`)
+3. **💾 Commit** le tue modifiche (`git commit -m 'Add some AmazingFeature'`)
+4. **📤 Push** al branch (`git push origin feature/AmazingFeature`)
+5. **🔄 Apri** una Pull Request
+
+### 📋 Linee Guida per Contribuire
+- Segui lo stile di codice esistente
+- Aggiungi test per nuove funzionalità
+- Aggiorna la documentazione se necessario
+- Assicurati che tutti i test passino
+
+---
+
+## 📄 Licenza
+
+Questo progetto è licenziato sotto la **Licenza MIT** - vedi il file [LICENSE](LICENSE) per i dettagli.
+
+```
+MIT License
+
+Copyright (c) 2024 Hydr4
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+```
+
+---
+
+<div align="center">
+
+### 🌟 Se LilWorlds ti è utile, considera di dargli una stella! ⭐
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Hydr46605/LilWorlds&type=Date)](https://star-history.com/#Hydr46605/LilWorlds&Date)
+
+---
+
+**LilWorlds** - *Rendere la gestione dei mondi semplice, veloce e potente.*
+
+Made with ❤️ by [Hydr4](https://github.com/Hydr46605)
+
+</div>
