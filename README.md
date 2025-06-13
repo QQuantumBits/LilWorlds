@@ -31,6 +31,7 @@
 ## 📋 Indice
 
 - [🚀 Caratteristiche](#-caratteristiche)
+- [🔧 API per Sviluppatori](#-api-per-sviluppatori)
 - [📦 Installazione](#-installazione)
 - [⚡ Quick Start](#-quick-start)
 - [🎮 Comandi](#-comandi)
@@ -81,6 +82,88 @@
 - **Sistema Permessi**: Controllo granulare dei permessi
 - **Gestione Errori**: Gestione errori robusta con logging dettagliato
 - **Sistema Messaggi**: Messaggi completamente personalizzabili in messages.yml
+
+---
+
+## 🔧 API per Sviluppatori
+
+LilWorlds 1.4.0 introduce una **API completa e potente** per sviluppatori che vogliono integrare la gestione dei mondi nei loro plugin.
+
+### ✨ Caratteristiche API
+
+- **🔄 Operazioni Asincrone**: Tutte le operazioni I/O utilizzano CompletableFuture
+- **🏗️ Builder Pattern**: Creazione intuitiva dei mondi con method chaining
+- **📡 Sistema Eventi**: Eventi personalizzati per operazioni sui mondi (cancellabili)
+- **🛡️ Thread Safety**: Sincronizzazione appropriata e scheduling sul main thread
+- **⚠️ Gestione Errori**: Gestione errori completa con callback
+- **🔧 Funzioni Utility**: Metodi helper per operazioni comuni
+
+### 🚀 Quick Start API
+
+**Aggiungi la dipendenza (JitPack):**
+
+```xml
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+
+<dependencies>
+    <dependency>
+        <groupId>com.github.QQuantumBits</groupId>
+        <artifactId>LilWorlds</artifactId>
+        <version>v1.4.0</version>
+        <scope>provided</scope>
+    </dependency>
+</dependencies>
+```
+
+**Esempio di utilizzo:**
+
+```java
+import org.hydr4.lilworlds.api.LilWorldsAPI;
+
+// Ottieni l'istanza API
+LilWorldsAPI api = LilWorldsAPI.getInstance();
+
+// Crea un mondo con il builder pattern
+api.createWorld("myworld")
+    .environment(World.Environment.NORMAL)
+    .generator("superflat")
+    .structures(true)
+    .onSuccess(world -> {
+        System.out.println("Mondo creato: " + world.getName());
+    })
+    .onFailure(error -> {
+        System.err.println("Errore: " + error);
+    })
+    .buildAsync();
+
+// Operazioni asincrone
+api.getWorldManager().loadWorldAsync("myworld").thenAccept(success -> {
+    if (success) {
+        System.out.println("Mondo caricato!");
+    }
+});
+```
+
+### 📚 Documentazione API
+
+- **[📖 Documentazione Completa](API_DOCUMENTATION.md)** - Guida completa all'API
+- **[🚀 Guida Publishing](API_PUBLISHING_GUIDE.md)** - Come pubblicare e usare l'API
+- **[💡 Esempi Pratici](API_EXAMPLE.java)** - Plugin di esempio completo
+
+### 🎯 Componenti Principali
+
+| Componente | Descrizione |
+|------------|-------------|
+| `LilWorldsAPI` | Punto di accesso principale all'API |
+| `WorldBuilder` | Builder per creazione mondi con pattern fluent |
+| `WorldManager` | Operazioni avanzate di gestione mondi |
+| `WorldInfo` | Wrapper completo per informazioni sui mondi |
+| `WorldUtils` | Funzioni utility per operazioni sui mondi |
 
 ---
 

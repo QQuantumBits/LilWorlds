@@ -44,28 +44,42 @@ public class WorldCommand extends BaseCommand {
         
         switch (subcommand) {
             case "info":
+            case "i":
                 return handleInfo(sender, args);
             case "create":
+            case "cr":
                 return handleCreate(sender, args);
             case "clone":
+            case "cl":
                 return handleClone(sender, args);
             case "load":
+            case "ld":
                 return handleLoad(sender, args);
             case "unload":
+            case "ul":
                 return handleUnload(sender, args);
             case "remove":
             case "delete":
+            case "rm":
                 return handleDelete(sender, args);
             case "import":
+            case "imp":
                 return handleImport(sender, args);
             case "list":
+            case "ls":
                 return handleList(sender, args);
             case "setspawn":
+            case "ss":
                 return handleSetSpawn(sender, args);
             case "setuniversalspawn":
+            case "sus":
                 return handleSetUniversalSpawn(sender, args);
             case "config":
+            case "cfg":
                 return handleConfig(sender, args);
+            case "teleport":
+            case "tp":
+                return handleTeleport(sender, args);
             default:
                 sendError(sender, plugin.getConfigManager().getMessage("unknown-subcommand", "{subcommand}", subcommand));
                 sendHelp(sender);
@@ -817,6 +831,81 @@ public class WorldCommand extends BaseCommand {
         return true;
     }
     
+    private boolean handleTeleport(CommandSender sender, String[] args) {
+        if (!hasPermission(sender, "lilworlds.world.teleport")) {
+            sendError(sender, plugin.getConfigManager().getNoPermissionMessage());
+            return true;
+        }
+        
+        if (!isPlayer(sender)) {
+            sendError(sender, plugin.getConfigManager().getMessage("player-only"));
+            return true;
+        }
+        
+        Player player = getPlayer(sender);
+        String worldName;
+        
+        if (args.length > 1) {
+            worldName = args[1];
+        } else {
+            sendError(sender, plugin.getConfigManager().getMessage("teleport-usage"));
+            return true;
+        }
+        
+        // Validate world name for security
+        if (!SecurityUtils.isValidWorldName(worldName)) {
+            sendError(sender, plugin.getConfigManager().getMessage("validation-world-name-invalid"));
+            SecurityUtils.logSecurityEvent(sender, "INVALID_WORLD_NAME", "Attempted to teleport to world with invalid name: " + worldName);
+            return true;
+        }
+        
+        World world = Bukkit.getWorld(worldName);
+        if (world == null) {
+            sendError(sender, plugin.getConfigManager().getWorldNotFoundMessage(worldName));
+            return true;
+        }
+        
+        // Check if player is already in the target world
+        if (player.getWorld().equals(world)) {
+            sendError(sender, plugin.getConfigManager().getMessage("teleport-already-in-world", "{world}", worldName));
+            return true;
+        }
+        
+        // Security check for rate limiting
+        if (!SecurityUtils.canPerformOperation(sender, "teleport")) {
+            long remaining = SecurityUtils.getRemainingCooldown(sender, "teleport", 5);
+            if (remaining > 0) {
+                sendError(sender, "You must wait " + (remaining / 1000) + " seconds before teleporting again!");
+            } else {
+                sendError(sender, "You have reached the maximum number of teleport operations for this hour!");
+            }
+            SecurityUtils.logSecurityEvent(sender, "RATE_LIMITED", "Teleport attempt blocked");
+            return true;
+        }
+        
+        // Store player's current location for potential return
+        Location currentLocation = player.getLocation();
+        
+        // Teleport to world spawn
+        Location spawnLocation = world.getSpawnLocation();
+        
+        sendInfo(sender, plugin.getConfigManager().getMessage("teleporting-to-world", "{world}", worldName));
+        
+        // Perform teleportation
+        boolean success = player.teleport(spawnLocation);
+        
+        if (success) {
+            sendSuccess(sender, plugin.getConfigManager().getMessage("teleport-success", "{world}", worldName));
+            
+            // Log the teleportation for security
+            SecurityUtils.logSecurityEvent(sender, "WORLD_TELEPORT", "Teleported to world: " + worldName);
+        } else {
+            sendError(sender, plugin.getConfigManager().getMessage("teleport-failed", "{world}", worldName));
+        }
+        
+        return true;
+    }
+    
     private void sendHelp(CommandSender sender) {
         sendMessage(sender, "");
         sendMessage(sender, plugin.getConfigManager().getMessage("help-header"));
@@ -830,6 +919,7 @@ public class WorldCommand extends BaseCommand {
         sendMessage(sender, plugin.getConfigManager().getMessage("cmd-world-import"));
         sendMessage(sender, plugin.getConfigManager().getMessage("cmd-world-remove"));
         sendMessage(sender, plugin.getConfigManager().getMessage("cmd-world-list"));
+        sendMessage(sender, plugin.getConfigManager().getMessage("cmd-world-teleport"));
         sendMessage(sender, plugin.getConfigManager().getMessage("cmd-world-setspawn"));
         sendMessage(sender, plugin.getConfigManager().getMessage("cmd-world-setuniversalspawn"));
         sendMessage(sender, plugin.getConfigManager().getMessage("cmd-world-config"));
@@ -851,7 +941,7 @@ public class WorldCommand extends BaseCommand {
     
     @Override
     protected List<String> getSubcommands() {
-        return Arrays.asList("info", "create", "clone", "load", "unload", "remove", "delete", "import", "list", "setspawn", "setuniversalspawn", "config");
+        return Arrays.asList("info", "i", "create", "cr", "clone", "cl", "load", "ld", "unload", "ul", "remove", "delete", "rm", "import", "imp", "list", "ls", "teleport", "tp", "setspawn", "ss", "setuniversalspawn", "sus", "config", "cfg");
     }
     
     @Override
@@ -865,38 +955,47 @@ public class WorldCommand extends BaseCommand {
             
             switch (subcommand) {
                 case "info":
+                case "i":
                 case "load":
+                case "ld":
                 case "unload":
+                case "ul":
                 case "remove":
                 case "delete":
+                case "rm":
                 case "import":
+                case "imp":
+                case "teleport":
+                case "tp":
                     completions.addAll(Bukkit.getWorlds().stream()
                         .map(World::getName)
                         .collect(Collectors.toList()));
                     break;
                 case "clone":
+                case "cl":
                     completions.addAll(Bukkit.getWorlds().stream()
                         .map(World::getName)
                         .collect(Collectors.toList()));
                     break;
                 case "config":
+                case "cfg":
                     completions.addAll(Arrays.asList("enable", "disable", "set"));
                     break;
             }
         } else if (args.length == 3) {
             String subcommand = args[0].toLowerCase();
             
-            if (subcommand.equals("create") || subcommand.equals("import")) {
+            if (subcommand.equals("create") || subcommand.equals("cr") || subcommand.equals("import") || subcommand.equals("imp")) {
                 completions.addAll(Arrays.asList("NORMAL", "NETHER", "THE_END"));
-            } else if (subcommand.equals("remove") || subcommand.equals("delete")) {
+            } else if (subcommand.equals("remove") || subcommand.equals("delete") || subcommand.equals("rm")) {
                 completions.add("confirm");
-            } else if (subcommand.equals("config")) {
+            } else if (subcommand.equals("config") || subcommand.equals("cfg")) {
                 completions.addAll(Arrays.asList("debug", "auto-load-worlds", "auto-save-worlds", "metrics"));
             }
         } else if (args.length == 4) {
             String subcommand = args[0].toLowerCase();
             
-            if (subcommand.equals("create") || subcommand.equals("import")) {
+            if (subcommand.equals("create") || subcommand.equals("cr") || subcommand.equals("import") || subcommand.equals("imp")) {
                 if (args[2].equalsIgnoreCase("-g")) {
                     completions.addAll(plugin.getGeneratorManager().getCustomGeneratorNames());
                 } else {

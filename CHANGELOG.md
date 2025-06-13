@@ -1,5 +1,154 @@
 # LilWorlds Changelog
 
+## Version 1.4.0 - "API Revolution"
+
+**Release Date:** June 13, 2025
+
+### 🚀 **MAJOR NEW FEATURES**
+
+#### 🔧 **Complete Developer API System**
+- **NEW:** Comprehensive API for developers with full world management capabilities
+- **NEW:** `LilWorldsAPI` - Main API entry point with singleton pattern
+- **NEW:** `WorldBuilder` - Fluent builder pattern for intuitive world creation
+- **NEW:** `WorldManager` - Advanced world management operations with async support
+- **NEW:** `WorldInfo` - Comprehensive world information wrapper
+- **NEW:** `WorldUtils` - Utility functions for common world operations
+
+#### 📡 **Event System**
+- **NEW:** Custom event system for world operations (all cancellable)
+- **NEW:** `WorldCreateEvent` - Fired before world creation
+- **NEW:** `WorldCreatedEvent` - Fired after successful world creation
+- **NEW:** `WorldDeleteEvent` - Fired before world deletion
+- **NEW:** `WorldTeleportEvent` - Fired before player teleportation
+
+#### ⚡ **Teleport Command**
+- **NEW:** `/world teleport <world>` command (alias: `/w tp <world>`)
+- **NEW:** Teleports players to spawn location of specified world
+- **NEW:** Security validation and rate limiting
+- **NEW:** Permission checking (`lilworlds.world.teleport`)
+- **NEW:** Player-only command with appropriate error messages
+
+#### 🔤 **Short Command Aliases**
+- **NEW:** `/w i` (info), `/w cr` (create), `/w cl` (clone)
+- **NEW:** `/w ld` (load), `/w ul` (unload), `/w rm` (remove)
+- **NEW:** `/w imp` (import), `/w ls` (list), `/w ss` (setspawn)
+- **NEW:** `/w sus` (setuniversalspawn), `/w cfg` (config), `/w tp` (teleport)
+
+### 🔧 **API Features**
+
+#### 🔄 **Async Operations**
+- **NEW:** All I/O operations return `CompletableFuture`
+- **NEW:** Non-blocking world loading, unloading, deletion, cloning
+- **NEW:** Async world creation with callback support
+- **NEW:** Thread-safe operations with proper main thread scheduling
+
+#### 🏗️ **Builder Pattern**
+- **NEW:** Fluent world creation: `api.createWorld("name").environment(NORMAL).build()`
+- **NEW:** Method chaining for intuitive API usage
+- **NEW:** Callback support for success/failure handling
+- **NEW:** Async and sync creation methods
+
+#### 🛡️ **Advanced Features**
+- **NEW:** World size calculation and formatting
+- **NEW:** World backup functionality
+- **NEW:** Player evacuation from worlds
+- **NEW:** Safe spawn location detection
+- **NEW:** World existence checking (loaded/unloaded)
+
+### 📚 **Documentation & Examples**
+
+#### 📖 **Complete Documentation**
+- **NEW:** `API_DOCUMENTATION.md` - Comprehensive API guide
+- **NEW:** `API_PUBLISHING_GUIDE.md` - Publishing and usage guide
+- **NEW:** `API_EXAMPLE.java` - Complete example plugin
+- **NEW:** Maven/Gradle dependency setup instructions
+- **NEW:** Best practices and performance tips
+
+#### 🎯 **Developer Support**
+- **NEW:** JitPack integration for easy dependency management
+- **NEW:** GitHub Packages support
+- **NEW:** Example implementations for common use cases
+- **NEW:** Migration guide from internal APIs
+
+### 🔧 **Core Plugin Improvements**
+
+#### 💬 **Enhanced Commands**
+- **IMPROVED:** All commands now support short aliases
+- **IMPROVED:** Tab completion for all aliases
+- **IMPROVED:** Help system shows available aliases
+- **IMPROVED:** Teleport command with full validation
+
+#### 🛡️ **Security & Performance**
+- **IMPROVED:** Enhanced world name validation
+- **IMPROVED:** Rate limiting for teleport operations
+- **IMPROVED:** Security logging for sensitive operations
+- **IMPROVED:** Efficient caching of world information
+
+#### 📝 **Messages & UX**
+- **NEW:** Teleport-specific messages in `messages.yml`
+- **IMPROVED:** Command descriptions show aliases
+- **IMPROVED:** Clear error messages for all scenarios
+- **IMPROVED:** Consistent command structure
+
+### 🔧 **Technical Implementation**
+
+#### 🏗️ **API Architecture**
+```
+src/main/java/org/hydr4/lilworlds/api/
+├── LilWorldsAPI.java              # Main API class
+├── events/                        # Event system
+├── utils/                         # Utility classes
+└── world/                         # World management
+```
+
+#### 🔄 **Async Pattern**
+- **NEW:** CompletableFuture-based async operations
+- **NEW:** Proper thread management with Bukkit scheduler
+- **NEW:** Error handling with callbacks and exceptions
+- **NEW:** Thread-safe operations throughout
+
+#### 📦 **Publishing Ready**
+- **NEW:** Maven distribution management configured
+- **NEW:** JitPack integration ready
+- **NEW:** GitHub Packages support
+- **NEW:** Proper versioning and artifact management
+
+### 🎯 **Usage Examples**
+
+#### Basic API Usage:
+```java
+LilWorldsAPI api = LilWorldsAPI.getInstance();
+api.createWorld("myworld")
+    .environment(World.Environment.NORMAL)
+    .generator("superflat")
+    .onSuccess(world -> System.out.println("Created!"))
+    .buildAsync();
+```
+
+#### Event Handling:
+```java
+@EventHandler
+public void onWorldCreate(WorldCreateEvent event) {
+    if (event.getWorldName().startsWith("temp_")) {
+        event.setCancelled(true);
+    }
+}
+```
+
+### 🔄 **Backward Compatibility**
+- **MAINTAINED:** All existing commands work unchanged
+- **MAINTAINED:** Existing configurations remain valid
+- **MAINTAINED:** No breaking changes to plugin behavior
+- **MAINTAINED:** Same security and performance standards
+
+### 📊 **Version Compatibility**
+- **Minecraft:** 1.16 - 1.21.5
+- **Java:** 8+
+- **Bukkit/Spigot/Paper:** All major implementations
+- **API Version:** 1.4.0
+
+---
+
 ## Version 1.3.1-AsyncFix - "Synchronization Fix"
 
 **Release Date:** June 13, 2025

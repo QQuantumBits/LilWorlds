@@ -14,6 +14,7 @@ import org.hydr4.lilworlds.utils.ColorUtils;
 import org.hydr4.lilworlds.utils.LoggerUtils;
 import org.hydr4.lilworlds.utils.SecurityUtils;
 import org.hydr4.lilworlds.utils.ServerUtils;
+import org.hydr4.lilworlds.api.LilWorldsAPI;
 
 public class LilWorlds extends JavaPlugin {
     
@@ -57,6 +58,10 @@ public class LilWorlds extends JavaPlugin {
         LoggerUtils.info("Initializing security and server optimizations...");
         initializeSecurityAndOptimizations();
         
+        // Initialize API
+        LoggerUtils.info("Initializing LilWorlds API...");
+        LilWorldsAPI.initialize(this);
+        
         // Load worlds
         LoggerUtils.info("Loading worlds from configuration...");
         worldManager.loadWorldsFromConfig();
@@ -64,6 +69,7 @@ public class LilWorlds extends JavaPlugin {
         LoggerUtils.success("LilWorlds has been successfully enabled!");
         LoggerUtils.info("Plugin version: " + getDescription().getVersion());
         LoggerUtils.info("Supported Minecraft versions: 1.16 - 1.21.5");
+        LoggerUtils.info("API initialized and ready for use!");
     }
     
     @Override
