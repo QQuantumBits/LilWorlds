@@ -4,6 +4,7 @@
 
 [![Latest Release](https://img.shields.io/github/v/release/QQuantumBits/LilWorlds?style=for-the-badge&logo=github&color=brightgreen)](https://github.com/QQuantumBits/LilWorlds/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/QQuantumBits/LilWorlds/total?style=for-the-badge&logo=download&color=blue)](https://github.com/QQuantumBits/LilWorlds/releases)
+[![Modrinth](https://img.shields.io/modrinth/v/lilworlds?style=for-the-badge&logo=modrinth&color=00AF5C)](https://modrinth.com/plugin/lilworlds)
 [![Minecraft Version](https://img.shields.io/badge/Minecraft-1.16--1.21.5-orange?style=for-the-badge&logo=minecraft)](https://www.minecraft.net/)
 [![Java Version](https://img.shields.io/badge/Java-8+-red?style=for-the-badge&logo=openjdk)](https://openjdk.org/)
 
