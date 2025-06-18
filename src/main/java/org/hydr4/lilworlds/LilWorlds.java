@@ -14,7 +14,11 @@ import org.hydr4.lilworlds.utils.ColorUtils;
 import org.hydr4.lilworlds.utils.LoggerUtils;
 import org.hydr4.lilworlds.utils.SecurityUtils;
 import org.hydr4.lilworlds.utils.ServerUtils;
+import org.hydr4.lilworlds.utils.VersionUtils;
 import org.hydr4.lilworlds.api.LilWorldsAPI;
+import org.hydr4.lilworlds.portals.PortalManager;
+import org.hydr4.lilworlds.portals.PortalListener;
+import org.hydr4.lilworlds.commands.PortalCommand;
 
 public class LilWorlds extends JavaPlugin {
     
@@ -23,6 +27,7 @@ public class LilWorlds extends JavaPlugin {
     private WorldManager worldManager;
     private GeneratorManager generatorManager;
     private InventoryManager inventoryManager;
+    private PortalManager portalManager;
     private PlaceholderAPIIntegration placeholderAPIIntegration;
     private BStatsIntegration bStatsIntegration;
     
@@ -46,6 +51,13 @@ public class LilWorlds extends JavaPlugin {
         LoggerUtils.info("Initializing inventory manager...");
         this.inventoryManager = new InventoryManager(this);
         
+        LoggerUtils.info("Initializing portal manager...");
+        this.portalManager = new PortalManager(this);
+        
+        // Register event listeners
+        LoggerUtils.info("Registering event listeners...");
+        registerEventListeners();
+        
         // Register commands
         LoggerUtils.info("Registering commands...");
         registerCommands();
@@ -66,9 +78,17 @@ public class LilWorlds extends JavaPlugin {
         LoggerUtils.info("Loading worlds from configuration...");
         worldManager.loadWorldsFromConfig();
         
+        // Version compatibility check
+        String versionWarning = VersionUtils.getUnsupportedVersionWarning();
+        if (versionWarning != null) {
+            LoggerUtils.warn(versionWarning);
+        }
+        
         LoggerUtils.success("LilWorlds has been successfully enabled!");
         LoggerUtils.info("Plugin version: " + getDescription().getVersion());
-        LoggerUtils.info("Supported Minecraft versions: 1.16 - 1.21.5");
+        LoggerUtils.info("Server compatibility: " + VersionUtils.getCompatibilityInfo());
+        LoggerUtils.info("Supported Minecraft versions: 1.16 - 1.21.6");
+        LoggerUtils.info("Portal system: Enabled with WorldEdit integration");
         LoggerUtils.info("API initialized and ready for use!");
     }
     
@@ -79,6 +99,11 @@ public class LilWorlds extends JavaPlugin {
         if (worldManager != null) {
             LoggerUtils.info("Saving world configurations...");
             worldManager.saveAllWorlds();
+        }
+        
+        if (portalManager != null) {
+            LoggerUtils.info("Saving portal configurations...");
+            portalManager.savePortals();
         }
         
         if (placeholderAPIIntegration != null) {
@@ -114,6 +139,7 @@ public class LilWorlds extends JavaPlugin {
     private void registerCommands() {
         WorldCommand worldCommand = new WorldCommand(this);
         WorldsCommand worldsCommand = new WorldsCommand(this);
+        PortalCommand portalCommand = new PortalCommand(this);
         
         getCommand("world").setExecutor(worldCommand);
         getCommand("world").setTabCompleter(worldCommand);
@@ -122,6 +148,13 @@ public class LilWorlds extends JavaPlugin {
         
         getCommand("worlds").setExecutor(worldsCommand);
         getCommand("worlds").setTabCompleter(worldsCommand);
+        
+        getCommand("portal").setExecutor(portalCommand);
+        getCommand("portal").setTabCompleter(portalCommand);
+    }
+    
+    private void registerEventListeners() {
+        getServer().getPluginManager().registerEvents(new PortalListener(this, portalManager), this);
     }
     
     private void initializeIntegrations() {
@@ -189,6 +222,10 @@ public class LilWorlds extends JavaPlugin {
     
     public InventoryManager getInventoryManager() {
         return inventoryManager;
+    }
+    
+    public PortalManager getPortalManager() {
+        return portalManager;
     }
     
     public PlaceholderAPIIntegration getPlaceholderAPIIntegration() {

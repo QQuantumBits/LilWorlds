@@ -1,11 +1,11 @@
 name: LilWorlds
 version: '${project.version}'
 main: org.hydr4.lilworlds.LilWorlds
-api-version: 1.16
+api-version: 1.21
 authors: [Hydr4]
 description: A performant, modular world management plugin for Minecraft
 website: https://github.com/CarmineArcangelo/LilWorlds
-softdepend: [PlaceholderAPI]
+softdepend: [PlaceholderAPI, WorldEdit]
 
 commands:
   world:
@@ -17,6 +17,10 @@ commands:
     description: Plugin management command
     usage: /worlds <subcommand> [args...]
     permission: lilworlds.worlds
+  portal:
+    description: Portal management command
+    usage: /portal <subcommand> [args...]
+    permission: lilworlds.portal
 
 permissions:
   lilworlds.*:
@@ -25,6 +29,7 @@ permissions:
     children:
       lilworlds.world.*: true
       lilworlds.worlds.*: true
+      lilworlds.portal.*: true
   
   lilworlds.world.*:
     description: Grants access to all world commands
@@ -111,4 +116,49 @@ permissions:
   
   lilworlds.worlds.inventory:
     description: Manage separate inventories feature
+    default: op
+  
+  lilworlds.portal.*:
+    description: Grants access to all portal commands
+    default: op
+    children:
+      lilworlds.portal: true
+      lilworlds.portal.create: true
+      lilworlds.portal.delete: true
+      lilworlds.portal.list: true
+      lilworlds.portal.info: true
+      lilworlds.portal.teleport: true
+      lilworlds.portal.frame: true
+      lilworlds.portal.reload: true
+  
+  lilworlds.portal:
+    description: Basic portal command access
+    default: op
+  
+  lilworlds.portal.create:
+    description: Create new portals
+    default: op
+  
+  lilworlds.portal.delete:
+    description: Delete portals
+    default: op
+  
+  lilworlds.portal.list:
+    description: List all portals
+    default: true
+  
+  lilworlds.portal.info:
+    description: View portal information
+    default: true
+  
+  lilworlds.portal.teleport:
+    description: Teleport through portals
+    default: true
+  
+  lilworlds.portal.frame:
+    description: Manage portal frames
+    default: op
+  
+  lilworlds.portal.reload:
+    description: Reload portal configuration
     default: op

@@ -5,7 +5,7 @@
 [![Latest Release](https://img.shields.io/github/v/release/QQuantumBits/LilWorlds?style=for-the-badge&logo=github&color=brightgreen)](https://github.com/QQuantumBits/LilWorlds/releases/latest)
 [![Downloads](https://img.shields.io/github/downloads/QQuantumBits/LilWorlds/total?style=for-the-badge&logo=download&color=blue)](https://github.com/QQuantumBits/LilWorlds/releases)
 [![Modrinth](https://img.shields.io/modrinth/v/lilworlds?style=for-the-badge&logo=modrinth&color=00AF5C)](https://modrinth.com/plugin/lilworlds)
-[![Minecraft Version](https://img.shields.io/badge/Minecraft-1.16--1.21.5-orange?style=for-the-badge&logo=minecraft)](https://www.minecraft.net/)
+[![Minecraft Version](https://img.shields.io/badge/Minecraft-1.16--1.21.6-orange?style=for-the-badge&logo=minecraft)](https://www.minecraft.net/)
 [![Java Version](https://img.shields.io/badge/Java-8+-red?style=for-the-badge&logo=openjdk)](https://openjdk.org/)
 
 [![Discord](https://img.shields.io/discord/phVzDFAZ3v?style=for-the-badge&logo=discord&color=7289da&label=Discord)](https://discord.gg/phVzDFAZ3v)
@@ -24,7 +24,7 @@
 
 <div align="center">
   <h3>🌍 Plugin performante e modulare per la gestione dei mondi su server Minecraft</h3>
-  <p><strong>Supporta le versioni dalla 1.16 alla 1.21.5</strong></p>
+  <p><strong>Supporta le versioni dalla 1.16 alla 1.21.6</strong></p>
 </div>
 
 ---
@@ -37,6 +37,7 @@
 - [⚡ Quick Start](#-quick-start)
 - [🎮 Comandi](#-comandi)
 - [🔐 Permessi](#-permessi)
+- [🌀 Sistema Portali](#-sistema-portali)
 - [⚙️ Configurazione](#️-configurazione)
 - [🛠️ Generatori Personalizzati](#️-generatori-personalizzati)
 - [📊 Sistema Inventari Separati](#-sistema-inventari-separati)
@@ -54,6 +55,14 @@
 - **Importa mondi esterni** senza problemi
 - **Sistema di spawn universale** per il teletrasporto tra mondi
 - **Rimozione sicura dei mondi** con conferma e backup
+
+### 🌀 Sistema Portali Integrato
+- **Portali personalizzati** - Crea portali tra qualsiasi mondo con facilità
+- **Integrazione WorldEdit** - Usa le selezioni WorldEdit per creare portali rapidamente
+- **Coordinate manuali** - Supporto completo per coordinate manuali senza WorldEdit
+- **Gestione frame** - Costruzione e rimozione automatica dei frame dei portali
+- **Sistema cooldown** - Prevenzione spam con cooldown configurabile
+- **Salvataggio persistente** - Tutti i portali vengono salvati e persistono tra i riavvii
 
 ### 📦 Sistema Inventari Separati
 - **Inventari separati per mondo/gruppo** - I giocatori possono avere inventari diversi in mondi diversi
@@ -171,7 +180,7 @@ api.getWorldManager().loadWorldAsync("myworld").thenAccept(success -> {
 ## 📦 Installazione
 
 ### Requisiti
-- **Server Minecraft**: 1.16 - 1.21.5 (Bukkit/Spigot/Paper)
+- **Server Minecraft**: 1.16 - 1.21.6 (Bukkit/Spigot/Paper)
 - **Java**: 8 o superiore
 - **Dipendenze**: Nessuna (PlaceholderAPI è opzionale)
 
@@ -222,6 +231,16 @@ api.getWorldManager().loadWorldAsync("myworld").thenAccept(success -> {
 - `/world config <enable|disable|set> <chiave> [valore]` - Modifica configurazione
 - `/world list` - Elenca tutti i mondi con informazioni dettagliate
 
+### Comandi Portali (`/portal`)
+- `/portal create <nome> <mondo_destinazione>` - Crea portale con selezione WorldEdit
+- `/portal create <nome> <mondo> <x1> <y1> <z1> <x2> <y2> <z2>` - Crea portale manualmente
+- `/portal delete <nome>` - Elimina un portale
+- `/portal list` - Elenca tutti i portali
+- `/portal info <nome>` - Mostra informazioni dettagliate portale
+- `/portal tp <nome>` - Teletrasportati attraverso un portale
+- `/portal frame <create|remove> <nome>` - Gestisci frame portali
+- `/portal reload` - Ricarica configurazione portali
+
 ### Comandi Plugin (`/worlds`)
 - `/worlds reload [target]` - Ricarica componenti del plugin
 - `/worlds rl [target]` - Alias per reload
@@ -265,11 +284,75 @@ api.getWorldManager().loadWorldAsync("myworld").thenAccept(success -> {
 - `lilworlds.world.config` - Modifica configurazione
 - `lilworlds.world.list` - Elenca mondi
 
+### Permessi Portali
+- `lilworlds.portal.*` - Tutti i comandi portali
+- `lilworlds.portal.create` - Crea nuovi portali
+- `lilworlds.portal.delete` - Elimina portali
+- `lilworlds.portal.list` - Elenca tutti i portali
+- `lilworlds.portal.info` - Visualizza informazioni portali
+- `lilworlds.portal.teleport` - Teletrasportati attraverso portali
+- `lilworlds.portal.frame` - Gestisci frame portali
+- `lilworlds.portal.reload` - Ricarica configurazione portali
+
 ### Permessi Plugin
 - `lilworlds.worlds.*` - Tutti i comandi gestione plugin
 - `lilworlds.worlds.reload` - Ricarica componenti plugin
 - `lilworlds.worlds.inventory` - Gestisci inventari separati
 - `lilworlds.worlds.groups` - Gestisci gruppi mondi
+
+---
+
+## 🌀 Sistema Portali
+
+LilWorlds 1.5.0 introduce un sistema di portali integrato e completo che permette di creare portali personalizzati tra mondi diversi.
+
+### ✨ Caratteristiche Portali
+- **Integrazione WorldEdit**: Usa `//wand` per selezionare aree facilmente
+- **Coordinate manuali**: Supporto completo senza WorldEdit
+- **Salvataggio persistente**: I portali vengono salvati in `portals.yml`
+- **Gestione frame**: Costruzione automatica dei frame dei portali
+- **Sistema cooldown**: Prevenzione spam con cooldown di 3 secondi
+- **Permessi granulari**: Controllo completo degli accessi
+
+### 🚀 Quick Start Portali
+
+1. **Installa WorldEdit** (opzionale ma raccomandato)
+2. **Seleziona area portale**:
+   ```
+   //wand
+   ```
+   Clicca due angoli per definire l'area del portale
+
+3. **Crea il portale**:
+   ```
+   /portal create mio_portale mondo_destinazione
+   ```
+
+4. **Costruisci frame** (opzionale):
+   ```
+   /portal frame create mio_portale
+   ```
+
+### 📝 Esempi Uso
+
+```bash
+# Crea portale con WorldEdit
+//wand
+# Seleziona area con il wand
+/portal create spawn_nether world_nether
+
+# Crea portale con coordinate manuali
+/portal create hub_portal world_hub 10 64 10 15 70 15 0 64 0
+
+# Gestisci portali
+/portal list
+/portal info spawn_nether
+/portal tp spawn_nether
+/portal frame create spawn_nether
+/portal delete vecchio_portale
+```
+
+Per maggiori dettagli, consulta [PORTAL_SYSTEM.md](PORTAL_SYSTEM.md).
 
 ---
 

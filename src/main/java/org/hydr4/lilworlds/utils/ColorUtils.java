@@ -130,9 +130,69 @@ public class ColorUtils {
      * Interpolate between two hex colors
      */
     private static String interpolateColor(String color1, String color2, double ratio) {
-        // This is a simplified implementation
-        // In a real implementation, you'd convert hex to RGB, interpolate, then back to hex
-        return ratio < 0.5 ? color1 : color2;
+        // Remove # if present
+        color1 = color1.replace("#", "").replace("&", "");
+        color2 = color2.replace("#", "").replace("&", "");
+        
+        // Handle Minecraft color codes
+        if (color1.length() == 1) color1 = getHexFromMinecraftColor(color1);
+        if (color2.length() == 1) color2 = getHexFromMinecraftColor(color2);
+        
+        // Ensure we have valid hex colors
+        if (color1.length() != 6 || color2.length() != 6) {
+            return ratio < 0.5 ? color1 : color2;
+        }
+        
+        try {
+            // Parse RGB values
+            int r1 = Integer.parseInt(color1.substring(0, 2), 16);
+            int g1 = Integer.parseInt(color1.substring(2, 4), 16);
+            int b1 = Integer.parseInt(color1.substring(4, 6), 16);
+            
+            int r2 = Integer.parseInt(color2.substring(0, 2), 16);
+            int g2 = Integer.parseInt(color2.substring(2, 4), 16);
+            int b2 = Integer.parseInt(color2.substring(4, 6), 16);
+            
+            // Interpolate
+            int r = (int) (r1 + (r2 - r1) * ratio);
+            int g = (int) (g1 + (g2 - g1) * ratio);
+            int b = (int) (b1 + (b2 - b1) * ratio);
+            
+            // Clamp values
+            r = Math.max(0, Math.min(255, r));
+            g = Math.max(0, Math.min(255, g));
+            b = Math.max(0, Math.min(255, b));
+            
+            // Convert back to hex
+            return String.format("&#%02x%02x%02x", r, g, b);
+        } catch (NumberFormatException e) {
+            return ratio < 0.5 ? color1 : color2;
+        }
+    }
+    
+    /**
+     * Convert Minecraft color code to hex
+     */
+    private static String getHexFromMinecraftColor(String colorCode) {
+        switch (colorCode.toLowerCase()) {
+            case "0": return "000000"; // Black
+            case "1": return "0000AA"; // Dark Blue
+            case "2": return "00AA00"; // Dark Green
+            case "3": return "00AAAA"; // Dark Aqua
+            case "4": return "AA0000"; // Dark Red
+            case "5": return "AA00AA"; // Dark Purple
+            case "6": return "FFAA00"; // Gold
+            case "7": return "AAAAAA"; // Gray
+            case "8": return "555555"; // Dark Gray
+            case "9": return "5555FF"; // Blue
+            case "a": return "55FF55"; // Green
+            case "b": return "55FFFF"; // Aqua
+            case "c": return "FF5555"; // Red
+            case "d": return "FF55FF"; // Light Purple
+            case "e": return "FFFF55"; // Yellow
+            case "f": return "FFFFFF"; // White
+            default: return "FFFFFF";
+        }
     }
     
     /**
@@ -180,5 +240,171 @@ public class ColorUtils {
         }
         
         return bar.toString();
+    }
+    
+    /**
+     * Create a centered text with padding
+     */
+    public static String centerText(String text, int width, char paddingChar) {
+        if (text == null) return null;
+        
+        String stripped = stripColor(text);
+        if (stripped.length() >= width) return text;
+        
+        int padding = width - stripped.length();
+        int leftPadding = padding / 2;
+        int rightPadding = padding - leftPadding;
+        
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < leftPadding; i++) {
+            result.append(paddingChar);
+        }
+        result.append(text);
+        for (int i = 0; i < rightPadding; i++) {
+            result.append(paddingChar);
+        }
+        
+        return result.toString();
+    }
+    
+    /**
+     * Create a bordered text box
+     */
+    public static String[] createTextBox(String[] lines, String borderColor, String textColor) {
+        if (lines == null || lines.length == 0) return new String[0];
+        
+        // Find the longest line
+        int maxLength = 0;
+        for (String line : lines) {
+            int length = stripColor(line).length();
+            if (length > maxLength) {
+                maxLength = length;
+            }
+        }
+        
+        // Create the box
+        String[] result = new String[lines.length + 2];
+        String border = borderColor + "+" + repeat("-", maxLength + 2) + "+";
+        
+        result[0] = border;
+        for (int i = 0; i < lines.length; i++) {
+            String paddedLine = lines[i];
+            int padding = maxLength - stripColor(lines[i]).length();
+            if (padding > 0) {
+                paddedLine += repeat(" ", padding);
+            }
+            result[i + 1] = borderColor + "| " + textColor + paddedLine + borderColor + " |";
+        }
+        result[result.length - 1] = border;
+        
+        return result;
+    }
+    
+    /**
+     * Repeat a string n times
+     */
+    private static String repeat(String str, int times) {
+        if (times <= 0) return "";
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < times; i++) {
+            result.append(str);
+        }
+        return result.toString();
+    }
+    
+    /**
+     * Create a fade effect between multiple colors
+     */
+    public static String multiColorGradient(String text, String... colors) {
+        if (text == null || text.isEmpty() || colors.length < 2) return text;
+        
+        StringBuilder result = new StringBuilder();
+        int length = text.length();
+        int segments = colors.length - 1;
+        
+        for (int i = 0; i < length; i++) {
+            char c = text.charAt(i);
+            if (c == ' ') {
+                result.append(c);
+                continue;
+            }
+            
+            // Calculate which segment we're in
+            double position = (double) i / (length - 1) * segments;
+            int segment = (int) position;
+            double localRatio = position - segment;
+            
+            // Ensure we don't go out of bounds
+            if (segment >= segments) {
+                segment = segments - 1;
+                localRatio = 1.0;
+            }
+            
+            String color = interpolateColor(colors[segment], colors[segment + 1], localRatio);
+            result.append(color).append(c);
+        }
+        
+        return result.toString();
+    }
+    
+    /**
+     * Apply a pulsing effect to text (for animations)
+     */
+    public static String pulseText(String text, String color1, String color2, long time, long period) {
+        double phase = (double) (time % period) / period;
+        double intensity = (Math.sin(phase * 2 * Math.PI) + 1) / 2; // 0 to 1
+        
+        String color = interpolateColor(color1, color2, intensity);
+        return color + text;
+    }
+    
+    /**
+     * Validate if a string is a valid hex color
+     */
+    public static boolean isValidHexColor(String color) {
+        if (color == null) return false;
+        
+        // Remove # and & prefixes
+        color = color.replace("#", "").replace("&", "");
+        
+        // Check if it's a valid 6-character hex string
+        return color.matches("^[0-9A-Fa-f]{6}$");
+    }
+    
+    /**
+     * Get the luminance of a color (for contrast calculations)
+     */
+    public static double getLuminance(String hexColor) {
+        if (!isValidHexColor(hexColor)) return 0.5;
+        
+        hexColor = hexColor.replace("#", "").replace("&", "");
+        
+        try {
+            int r = Integer.parseInt(hexColor.substring(0, 2), 16);
+            int g = Integer.parseInt(hexColor.substring(2, 4), 16);
+            int b = Integer.parseInt(hexColor.substring(4, 6), 16);
+            
+            // Convert to relative luminance
+            double rLum = r / 255.0;
+            double gLum = g / 255.0;
+            double bLum = b / 255.0;
+            
+            // Apply gamma correction
+            rLum = rLum <= 0.03928 ? rLum / 12.92 : Math.pow((rLum + 0.055) / 1.055, 2.4);
+            gLum = gLum <= 0.03928 ? gLum / 12.92 : Math.pow((gLum + 0.055) / 1.055, 2.4);
+            bLum = bLum <= 0.03928 ? bLum / 12.92 : Math.pow((bLum + 0.055) / 1.055, 2.4);
+            
+            return 0.2126 * rLum + 0.7152 * gLum + 0.0722 * bLum;
+        } catch (NumberFormatException e) {
+            return 0.5;
+        }
+    }
+    
+    /**
+     * Get a contrasting color (black or white) for the given background color
+     */
+    public static String getContrastingColor(String backgroundColor) {
+        double luminance = getLuminance(backgroundColor);
+        return luminance > 0.5 ? "&0" : "&f"; // Black for light backgrounds, white for dark
     }
 }
