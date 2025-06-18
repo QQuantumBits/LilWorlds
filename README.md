@@ -352,7 +352,7 @@ LilWorlds 1.5.0 introduce un sistema di portali integrato e completo che permett
 /portal delete vecchio_portale
 ```
 
-Per maggiori dettagli, consulta [PORTAL_SYSTEM.md](PORTAL_SYSTEM.md).
+Per maggiori dettagli, consulta la documentazione.
 
 ---
 
