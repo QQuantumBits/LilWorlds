@@ -139,7 +139,7 @@ public class LilWorlds extends JavaPlugin {
     private void registerCommands() {
         WorldCommand worldCommand = new WorldCommand(this);
         WorldsCommand worldsCommand = new WorldsCommand(this);
-        PortalCommand portalCommand = new PortalCommand(this);
+        org.hydr4.lilworlds.portals.PortalCommand portalCommand = new org.hydr4.lilworlds.portals.PortalCommand(this);
         
         getCommand("world").setExecutor(worldCommand);
         getCommand("world").setTabCompleter(worldCommand);

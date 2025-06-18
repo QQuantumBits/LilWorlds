@@ -218,3 +218,155 @@ teleport-failed: "&cFailed to teleport to world '{world}'!"
 
 # Unknown Command
 unknown-subcommand: "&cUnknown subcommand: {subcommand}"
+
+# Portal System Messages
+portal-permission-denied: "&cYou don't have permission to use portal commands!"
+portal-player-only: "&cPortal commands can only be used by players!"
+portal-usage-create: "&cUsage: /portal create <name> <destination_world> [dest_x] [dest_y] [dest_z]"
+portal-usage-create-manual: "&cUsage: /portal create <name> <world> <x1> <y1> <z1> <x2> <y2> <z2> [dest_x] [dest_y] [dest_z]"
+portal-usage-delete: "&cUsage: /portal delete <name>"
+portal-usage-info: "&cUsage: /portal info <name>"
+portal-usage-tp: "&cUsage: /portal tp <name>"
+portal-usage-frame: "&cUsage: /portal frame <create|remove> <name>"
+
+# Portal Creation Messages
+portal-already-exists: "&cPortal with name '{name}' already exists!"
+portal-world-not-found: "&cDestination world '{world}' not found!"
+portal-worldedit-not-found: "&cWorldEdit not found! Please install WorldEdit or use manual coordinates."
+portal-no-selection: "&cNo WorldEdit selection found! Use //wand to select an area."
+portal-incomplete-selection: "&cIncomplete WorldEdit selection! Use //wand to select an area."
+portal-selection-error: "&cError getting WorldEdit selection: {error}"
+portal-invalid-coordinates: "&cInvalid coordinates provided!"
+portal-invalid-destination: "&cInvalid destination coordinates!"
+portal-created-success: "&aPortal '{name}' created successfully!"
+portal-created-from: "&7From: {from} to {to}"
+portal-created-destination: "&7Destination: {world} at {location}"
+portal-creation-failed: "&cFailed to create portal!"
+
+# Portal Management Messages
+portal-not-found: "&cPortal '{name}' not found!"
+portal-deleted: "&aPortal '{name}' deleted successfully!"
+portal-delete-failed: "&cFailed to delete portal '{name}'!"
+portal-list-header: "&8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+portal-list-title: "&b&lLilWorlds &8- &7Portal List"
+portal-list-footer: "&8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+portal-list-empty: "&7No portals are currently configured."
+portal-list-entry: "&7- &b{name} &8→ &f{world} &7({type})"
+portal-list-count: "&7Total portals: &f{count}"
+
+# Portal Information Messages
+portal-info-header: "&8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+portal-info-title: "&b&lPortal Information: &f{name}"
+portal-info-footer: "&8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+portal-info-name: "&7Name: &f{name}"
+portal-info-type: "&7Type: &f{type}"
+portal-info-world: "&7World: &f{world}"
+portal-info-location1: "&7Corner 1: &f{location}"
+portal-info-location2: "&7Corner 2: &f{location}"
+portal-info-destination: "&7Destination: &f{world} at {location}"
+portal-info-frame: "&7Frame Material: &f{material}"
+portal-info-size: "&7Size: &f{size}"
+portal-info-enabled: "&7Enabled: &f{status}"
+
+# Portal Teleportation Messages
+portal-teleporting: "&7Teleporting through portal '{name}'..."
+portal-teleport-success: "&aTeleported to {world} successfully!"
+portal-teleport-failed: "&cFailed to teleport through portal!"
+portal-teleport-cooldown: "&cYou must wait {time} seconds before using another portal!"
+portal-teleport-same-world: "&cYou are already in the destination world!"
+
+# Portal Frame Messages
+portal-frame-created: "&aPortal frame for '{name}' created successfully!"
+portal-frame-removed: "&aPortal frame for '{name}' removed successfully!"
+portal-frame-create-failed: "&cFailed to create portal frame!"
+portal-frame-remove-failed: "&cFailed to remove portal frame!"
+portal-frame-invalid-action: "&cInvalid frame action! Use: create or remove"
+
+# Portal Reload Messages
+portal-config-reloaded: "&aPortal configuration reloaded successfully!"
+portal-reload-failed: "&cFailed to reload portal configuration!"
+
+# Portal Command Help
+portal-help-header: "&8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+portal-help-title: "&b&lLilWorlds &8- &7Portal Commands"
+portal-help-footer: "&8▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬"
+cmd-portal-create: "&7/portal create <name> <world> &8- &fCreate a portal"
+cmd-portal-delete: "&7/portal delete <name> &8- &fDelete a portal"
+cmd-portal-list: "&7/portal list &8- &fList all portals"
+cmd-portal-info: "&7/portal info <name> &8- &fView portal information"
+cmd-portal-tp: "&7/portal tp <name> &8- &fTeleport through a portal"
+cmd-portal-frame: "&7/portal frame <create|remove> <name> &8- &fManage portal frames"
+cmd-portal-reload: "&7/portal reload &8- &fReload portal configuration"
+
+# Portal Types
+portal-type-custom: "Custom"
+portal-type-nether: "Nether Portal"
+portal-type-end: "End Portal"
+
+# Portal Status
+portal-enabled: "&aEnabled"
+portal-disabled: "&cDisabled"
+
+# Portal System Messages
+portal-permission-denied: "&cYou don't have permission to {action} portals!"
+portal-player-only: "&cOnly players can {action} portals!"
+portal-usage-create: "&cUsage: /portal create <name> <destination_world> [coordinates]"
+portal-usage-create-worldedit: "&eOr use WorldEdit selection: /portal create <name> <destination_world>"
+portal-usage-delete: "&cUsage: /portal delete <name>"
+portal-usage-info: "&cUsage: /portal info <name>"
+portal-usage-teleport: "&cUsage: /portal tp <name>"
+portal-usage-manual: "&cUsage: /portal create <name> <dest_world> <x1> <y1> <z1> <x2> <y2> <z2> [dest_x] [dest_y] [dest_z]"
+
+# Portal Creation Messages
+portal-already-exists: "&cPortal '{portal}' already exists!"
+portal-destination-world-not-found: "&cDestination world '{world}' does not exist!"
+portal-created-success: "&aPortal '{portal}' created successfully!"
+portal-created-success-worldedit: "&aPortal '{portal}' created successfully using WorldEdit selection!"
+portal-created-destination: "&eDestination: {world} at {location}"
+portal-creation-failed: "&cFailed to create portal! Check console for errors."
+portal-invalid-coordinates: "&cInvalid coordinates! Please use numbers."
+
+# Portal Deletion Messages
+portal-not-found: "&cPortal '{portal}' does not exist!"
+portal-deleted-success: "&aPortal '{portal}' deleted successfully!"
+portal-deletion-failed: "&cFailed to delete portal!"
+
+# Portal List Messages
+portal-list-empty: "&eNo portals found."
+portal-list-header: "&6=== Portals ({count}) ==="
+portal-list-item: "&e• &f{name} &7→ &b{destination} &7({type})"
+
+# Portal Info Messages
+portal-info-header: "&6=== Portal Info: {name} ==="
+portal-info-type: "&eType: &f{type}"
+portal-info-world: "&eWorld: &f{world}"
+portal-info-position1: "&ePosition 1: &f{location}"
+portal-info-position2: "&ePosition 2: &f{location}"
+portal-info-destination-world: "&eDestination World: &f{world}"
+portal-info-destination: "&eDestination: &f{location}"
+portal-info-frame-material: "&eFrame Material: &f{material}"
+
+# Portal Teleport Messages
+portal-teleport-success: "&aTeleported through portal '{portal}'!"
+portal-teleport-failed: "&cFailed to teleport! You might be on cooldown or the destination world is not loaded."
+
+# Portal Reload Messages
+portal-reload-success: "&aPortal configuration reloaded!"
+
+# Portal Help Messages
+portal-help-header: "&6=== Portal Commands ==="
+portal-help-create: "&e/portal create <name> <dest_world> &7- Create portal with WorldEdit selection"
+portal-help-delete: "&e/portal delete <name> &7- Delete portal"
+portal-help-list: "&e/portal list &7- List all portals"
+portal-help-info: "&e/portal info <name> &7- Show portal information"
+portal-help-teleport: "&e/portal tp <name> &7- Teleport through portal"
+portal-help-reload: "&e/portal reload &7- Reload portal configuration"
+
+# WorldEdit Integration Messages
+worldedit-enabled: "&aWorldEdit integration is enabled! Use //wand to select areas."
+worldedit-disabled: "&cWorldEdit not found. Manual coordinates required."
+worldedit-no-selection: "&cNo WorldEdit selection found! Use //wand to select an area."
+worldedit-incomplete-selection: "&cIncomplete WorldEdit selection! Use //wand to select an area."
+worldedit-error: "&cError getting WorldEdit selection: {error}"
+worldedit-not-found: "&cWorldEdit not found! Please install WorldEdit or use manual coordinates."
+worldedit-using-selection: "&aUsing WorldEdit selection for portal area!"
