@@ -513,9 +513,7 @@ public class WorldCommand extends BaseCommand {
         SecurityUtils.logSecurityEvent(sender, "WORLD_DELETE_ATTEMPT", 
             "Attempting to delete world: " + worldName);
         
-        try {
-            boolean success = plugin.getWorldManager().deleteWorld(worldName);
-            
+        plugin.getWorldManager().deleteWorld(worldName).thenAccept(success -> {
             if (success) {
                 sendSuccess(sender, "World '" + worldName + "' has been permanently deleted!");
                 sendInfo(sender, "All world configuration has been purged from config files.");
@@ -526,11 +524,12 @@ public class WorldCommand extends BaseCommand {
                 SecurityUtils.logSecurityEvent(sender, "WORLD_DELETE_FAILURE", 
                     "Failed to delete world: " + worldName);
             }
-        } catch (Exception e) {
+        }).exceptionally(e -> {
             sendError(sender, "An error occurred while deleting the world!");
             SecurityUtils.logSecurityEvent(sender, "WORLD_DELETE_ERROR", 
                 "Error deleting world " + worldName + ": " + e.getMessage());
-        }
+            return null;
+        });
         
         return true;
     }
