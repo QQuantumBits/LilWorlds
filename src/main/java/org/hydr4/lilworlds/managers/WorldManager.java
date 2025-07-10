@@ -9,7 +9,8 @@ import org.hydr4.lilworlds.utils.LoggerUtils;
 import org.hydr4.lilworlds.utils.VersionUtils;
 
 import java.io.File;
-import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
 public class WorldManager {
@@ -20,7 +21,7 @@ public class WorldManager {
     
     public WorldManager(LilWorlds plugin) {
         this.plugin = plugin;
-        this.managedWorlds = new HashMap<>();
+        this.managedWorlds = new ConcurrentHashMap<>();
         loadUniversalSpawn();
     }
     
@@ -640,61 +641,80 @@ public class WorldManager {
     /**
      * Delete a world completely (unload and remove files)
      */
-    public boolean deleteWorld(String worldName) {
-        LoggerUtils.info("Attempting to delete world: " + worldName);
-        
-        try {
-            // First, unload the world if it's loaded
+    public CompletableFuture<Boolean> deleteWorld(String worldName) {
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
+
+        // Deletion logic must start on the main thread to safely check world status
+        Bukkit.getScheduler().runTask(plugin, () -> {
             World world = Bukkit.getWorld(worldName);
+
             if (world != null) {
+                // If the world is loaded, it must be unloaded on the main thread
                 LoggerUtils.info("World '" + worldName + "' is loaded, unloading first...");
-                
-                // Move all players out of the world
-                World mainWorld = Bukkit.getWorlds().get(0); // Main world
+
+                // Move players out of the world
+                World mainWorld = Bukkit.getWorlds().get(0);
                 for (Player player : world.getPlayers()) {
                     player.teleport(mainWorld.getSpawnLocation());
-                    LoggerUtils.info("Moved player " + player.getName() + " out of world " + worldName);
                 }
-                
-                // Unload the world
+
                 if (!Bukkit.unloadWorld(world, true)) {
                     LoggerUtils.error("Failed to unload world '" + worldName + "' before deletion!");
-                    return false;
-                }
-                LoggerUtils.info("Successfully unloaded world '" + worldName + "'");
-            }
-            
-            // Remove from managed worlds
-            managedWorlds.remove(worldName);
-            
-            // Delete world files
-            File worldFolder = new File(Bukkit.getWorldContainer(), worldName);
-            if (worldFolder.exists()) {
-                LoggerUtils.info("Deleting world files for '" + worldName + "'...");
-                boolean deleted = deleteDirectory(worldFolder);
-                
-                if (deleted) {
-                    LoggerUtils.success("Successfully deleted world '" + worldName + "' and all its files!");
-                    
-                    // Remove from configuration
-                    removeWorldFromConfig(worldName);
-                    
-                    return true;
+                    future.complete(false);
                 } else {
-                    LoggerUtils.error("Failed to delete world files for '" + worldName + "'!");
-                    return false;
+                    LoggerUtils.info("Successfully unloaded world '" + worldName + "'. Now deleting files asynchronously...");
+                    // After successful unload, run file deletion asynchronously
+                    deleteWorldFilesAsync(worldName, future);
                 }
             } else {
-                LoggerUtils.warn("World folder for '" + worldName + "' does not exist, but removing from configuration...");
-                removeWorldFromConfig(worldName);
-                return true;
+                // If the world is not loaded, we can proceed directly to asynchronous file deletion
+                LoggerUtils.info("World '" + worldName + "' is not loaded. Proceeding with file deletion...");
+                deleteWorldFilesAsync(worldName, future);
             }
-            
-        } catch (Exception e) {
-            LoggerUtils.error("Error occurred while deleting world '" + worldName + "': " + e.getMessage());
-            e.printStackTrace();
-            return false;
-        }
+        });
+
+        return future;
+    }
+
+    /**
+     * Deletes the world files asynchronously to avoid blocking the main thread.
+     * This should only be called after the world has been successfully unloaded.
+     */
+    private void deleteWorldFilesAsync(String worldName, CompletableFuture<Boolean> future) {
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            try {
+                // Remove from the managed worlds map (must be thread-safe)
+                managedWorlds.remove(worldName);
+
+                // Delete world files from disk
+                File worldFolder = new File(Bukkit.getWorldContainer(), worldName);
+                if (worldFolder.exists()) {
+                    LoggerUtils.info("Deleting world files for '" + worldName + "'...");
+                    boolean deleted = deleteDirectory(worldFolder);
+
+                    if (deleted) {
+                        LoggerUtils.success("Successfully deleted world '" + worldName + "' and all its files!");
+                        // Schedule config update back on the main thread to be safe
+                        Bukkit.getScheduler().runTask(plugin, () -> {
+                            removeWorldFromConfig(worldName);
+                            future.complete(true);
+                        });
+                    } else {
+                        LoggerUtils.error("Failed to delete world files for '" + worldName + "'!");
+                        future.complete(false);
+                    }
+                } else {
+                    LoggerUtils.warn("World folder for '" + worldName + "' does not exist, but removing from configuration...");
+                    Bukkit.getScheduler().runTask(plugin, () -> {
+                        removeWorldFromConfig(worldName);
+                        future.complete(true);
+                    });
+                }
+            } catch (Exception e) {
+                LoggerUtils.error("An error occurred while deleting world files for '" + worldName + "'", e);
+                future.complete(false);
+            }
+        });
     }
     
     /**

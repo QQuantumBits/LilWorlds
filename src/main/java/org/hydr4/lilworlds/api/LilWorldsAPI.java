@@ -131,7 +131,16 @@ public class LilWorldsAPI {
      * @return CompletableFuture that completes when the world is loaded
      */
     public CompletableFuture<Boolean> loadWorldAsync(String worldName) {
-        return CompletableFuture.supplyAsync(() -> getWorldManager().loadWorld(worldName));
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
+        plugin.getServer().getScheduler().runTask(plugin, () -> {
+            try {
+                boolean result = getWorldManager().loadWorld(worldName);
+                future.complete(result);
+            } catch (Exception e) {
+                future.completeExceptionally(e);
+            }
+        });
+        return future;
     }
     
     /**
@@ -141,7 +150,16 @@ public class LilWorldsAPI {
      * @return CompletableFuture that completes when the world is unloaded
      */
     public CompletableFuture<Boolean> unloadWorldAsync(String worldName) {
-        return CompletableFuture.supplyAsync(() -> getWorldManager().unloadWorld(worldName, true));
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
+        plugin.getServer().getScheduler().runTask(plugin, () -> {
+            try {
+                boolean result = getWorldManager().unloadWorld(worldName, true);
+                future.complete(result);
+            } catch (Exception e) {
+                future.completeExceptionally(e);
+            }
+        });
+        return future;
     }
     
     /**
@@ -151,7 +169,7 @@ public class LilWorldsAPI {
      * @return CompletableFuture that completes when the world is deleted
      */
     public CompletableFuture<Boolean> deleteWorldAsync(String worldName) {
-        return CompletableFuture.supplyAsync(() -> getWorldManager().deleteWorld(worldName));
+        return getWorldManager().deleteWorld(worldName);
     }
     
     /**
@@ -162,7 +180,16 @@ public class LilWorldsAPI {
      * @return CompletableFuture that completes when the world is cloned
      */
     public CompletableFuture<Boolean> cloneWorldAsync(String sourceWorld, String targetWorld) {
-        return CompletableFuture.supplyAsync(() -> getWorldManager().cloneWorld(sourceWorld, targetWorld));
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
+        plugin.getServer().getScheduler().runTask(plugin, () -> {
+            try {
+                boolean result = getWorldManager().cloneWorld(sourceWorld, targetWorld);
+                future.complete(result);
+            } catch (Exception e) {
+                future.completeExceptionally(e);
+            }
+        });
+        return future;
     }
     
     /**
@@ -172,7 +199,16 @@ public class LilWorldsAPI {
      * @return CompletableFuture that completes when the world is imported
      */
     public CompletableFuture<Boolean> importWorldAsync(String worldName) {
-        return CompletableFuture.supplyAsync(() -> getWorldManager().importWorld(worldName, World.Environment.NORMAL, null));
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
+        plugin.getServer().getScheduler().runTask(plugin, () -> {
+            try {
+                boolean result = getWorldManager().importWorld(worldName, World.Environment.NORMAL, null);
+                future.complete(result);
+            } catch (Exception e) {
+                future.completeExceptionally(e);
+            }
+        });
+        return future;
     }
     
     /**
@@ -183,13 +219,21 @@ public class LilWorldsAPI {
      * @return CompletableFuture that completes when the teleportation is done
      */
     public CompletableFuture<Boolean> teleportPlayerToWorld(Player player, String worldName) {
-        return CompletableFuture.supplyAsync(() -> {
-            World world = org.bukkit.Bukkit.getWorld(worldName);
-            if (world != null) {
-                return player.teleport(world.getSpawnLocation());
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
+        plugin.getServer().getScheduler().runTask(plugin, () -> {
+            try {
+                World world = org.bukkit.Bukkit.getWorld(worldName);
+                if (world != null) {
+                    boolean result = player.teleport(world.getSpawnLocation());
+                    future.complete(result);
+                } else {
+                    future.complete(false);
+                }
+            } catch (Exception e) {
+                future.completeExceptionally(e);
             }
-            return false;
         });
+        return future;
     }
     
     /**
